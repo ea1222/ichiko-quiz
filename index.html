@@ -33,35 +33,39 @@
             text-align: center;
             color: var(--primary-color);
             font-size: 24px;
-            margin-bottom: 20px;
+            margin-bottom: 5px;
         }
-        .month-selector, .subject-selector {
-            display: flex;
-            justify-content: center;
-            gap: 10px;
-            margin-bottom: 15px;
-            flex-wrap: wrap;
+        .subtitle {
+            text-align: center;
+            color: #666;
+            margin-bottom: 25px;
+            font-size: 14px;
         }
-        .btn {
-            padding: 10px 20px;
-            border: 2px solid var(--primary-color);
-            background: transparent;
-            color: var(--primary-color);
-            border-radius: 20px;
-            cursor: pointer;
-            font-weight: bold;
-            transition: all 0.3s;
-        }
-        .btn.active {
+        .section-title {
             background: var(--primary-color);
             color: white;
+            padding: 8px 15px;
+            border-radius: 6px;
+            font-size: 18px;
+            margin-top: 30px;
+            margin-bottom: 15px;
+            font-weight: bold;
+        }
+        .subject-tag {
+            display: inline-block;
+            background: #e1f0ff;
+            color: var(--primary-color);
+            padding: 3px 10px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: bold;
+            margin-bottom: 8px;
         }
         .quiz-card {
-            display: none;
             border: 1px solid #ddd;
             border-radius: 8px;
             padding: 15px;
-            margin-top: 15px;
+            margin-bottom: 15px;
             background: #fafafa;
         }
         .question {
@@ -109,124 +113,157 @@
 
 <div class="container">
     <h1>一高合格応援クイズサイト</h1>
+    <div class="subtitle">※ボタンなし！下までスクロールしてポチポチ解こう！</div>
     
-    <!-- 月の選択 -->
-    <div class="month-selector">
-        <button class="btn m-btn" onclick="changeMonth('8', this)">8月号（過去の復習）</button>
-        <button class="btn m-btn active" onclick="changeMonth('9', this)">9月号（今月の対策）</button>
+    <!-- ==================== 9月号：今月のテスト対策エリア ==================== -->
+    <div class="section-title">🔥 9月号：今月のテスト範囲ガチ特訓</div>
+
+    <!-- 社会 -->
+    <div class="quiz-card">
+        <div class="subject-tag">社会・歴史</div>
+        <div class="question">Q1. 室町時代、馬を使って荷物を運んだ「運送業者」を何という？</div>
+        <div class="options">
+            <button class="option-btn" onclick="checkAnswer(this, 1)">馬借（ばしゃく）</button>
+            <button class="option-btn" onclick="checkAnswer(this, 0)">土倉（どそう）</button>
+            <button class="option-btn" onclick="checkAnswer(this, 0)">町衆（まちしゅう）</button>
+        </div>
+        <div class="feedback"></div>
+        <div class="explanation">【解説】馬で運ぶから「馬借」！土倉は質屋（銀行）、町衆は京都のお金持ち商人です。</div>
     </div>
 
-    <!-- 教科の選択 -->
-    <div class="subject-selector">
-        <button class="btn s-btn" onclick="changeSubject('eng', this)">英語</button>
-        <button class="btn s-btn" onclick="changeSubject('sci', this)">理科</button>
-        <button class="btn s-btn active" onclick="changeSubject('soc', this)">社会</button>
+    <div class="quiz-card">
+        <div class="subject-tag">社会・歴史</div>
+        <div class="question">Q2. 農民が「借金をチャラにしろ（徳政令）」と要求して起こした一揆は？</div>
+        <div class="options">
+            <button class="option-btn" onclick="checkAnswer(this, 0)">一向一揆</button>
+            <button class="option-btn" onclick="checkAnswer(this, 1)">土一揆（つちいっき）</button>
+            <button class="option-btn" onclick="checkAnswer(this, 0)">島原・天草一揆</button>
+        </div>
+        <div class="feedback"></div>
+        <div class="explanation">【解説】農民（土に生きる人）の借金チャラ一揆だから「土一揆」！</div>
     </div>
 
-    <!-- クイズコンテンツ -->
-    <div id="quiz-container">
-        
-        <!-- ==================== 9月号：英語（新規追加！） ==================== -->
-        <div class="quiz-card" data-month="9" data-subject="eng">
-            <div class="question">Q1. [3年範囲] I have ( &nbsp; ) in Ichinoseki for three years. <br>「私は3年間ずっと一関に住んでいます（継続）」</div>
-            <div class="options">
-                <button class="option-btn" onclick="checkAnswer(this, 1)">lived</button>
-                <button class="option-btn" onclick="checkAnswer(this, 0)">live</button>
-            </div>
-            <div class="feedback"></div>
-            <div class="explanation">【解説】現在完了形「have ＋ 過去分詞」の継続の文です。for three years（3年間）があるのが目印！</div>
+    <div class="quiz-card">
+        <div class="subject-tag">社会・歴史</div>
+        <div class="question">Q3. 海賊（倭寇）と区別するために「割札」を使った日明貿易の別名は？</div>
+        <div class="options">
+            <button class="option-btn" onclick="checkAnswer(this, 1)">勘合貿易（かんごうぼうえき）</button>
+            <button class="option-btn" onclick="checkAnswer(this, 0)">朱印船貿易</button>
         </div>
-        <div class="quiz-card" data-month="9" data-subject="eng">
-            <div class="question">Q2. [2年復習] ( &nbsp; ) I was a child, I liked soccer.<br>「私が子供だったとき、サッカーが好きでした」</div>
-            <div class="options">
-                <button class="option-btn" onclick="checkAnswer(this, 1)">When</button>
-                <button class="option-btn" onclick="checkAnswer(this, 0)">That</button>
-            </div>
-            <div class="feedback"></div>
-            <div class="explanation">【解説】接続詞のwhen（〜のとき）です。文の途中に「カンマ（,）」がある並び替えでも超狙われます！</div>
-        </div>
-        <div class="quiz-card" data-month="9" data-subject="eng">
-            <div class="question">Q3. [2年復習] I want ( &nbsp; ) English well.<br>「私は英語を上手に話したいです」</div>
-            <div class="options">
-                <button class="option-btn" onclick="checkAnswer(this, 0)">speak</button>
-                <button class="option-btn" onclick="checkAnswer(this, 1)">to speak</button>
-            </div>
-            <div class="feedback"></div>
-            <div class="explanation">【解説】不定詞（to ＋ 動詞の原形）の文です。「want to 〜」で「〜したい」という超定番フレーズ！</div>
-        </div>
-        <div class="quiz-card" data-month="9" data-subject="eng">
-            <div class="question">Q4. [3年範囲] Ken ( &nbsp; ) already finished his homework.<br>「ケンはもう宿題を終えてしまいました（完了）」</div>
-            <div class="options">
-                <button class="option-btn" onclick="checkAnswer(this, 1)">has</button>
-                <button class="option-btn" onclick="checkAnswer(this, 0)">have</button>
-            </div>
-            <div class="feedback"></div>
-            <div class="explanation">【解説】主語がKen（1人）なのでhaveではなく「has」を使います。already（もう・すでに）はhave/hasのすぐ後ろに挟むルール！</div>
-        </div>
+        <div class="feedback"></div>
+        <div class="explanation">【解説】「勘合」という割札を使ったから勘合貿易！朱印船貿易は江戸時代です。</div>
+    </div>
 
-        <!-- ==================== 9月号：理科（新規追加！） ==================== -->
-        <div class="quiz-card" data-month="9" data-subject="sci">
-            <div class="question">Q1. [3年範囲] 生物の体が大きくなる時、1個の細胞が2個に分かれる現象を何という？</div>
-            <div class="options">
-                <button class="option-btn" onclick="checkAnswer(this, 1)">細胞分裂（さいぼうぶんれつ）</button>
-                <button class="option-btn" onclick="checkAnswer(this, 0)">化学変化</button>
-            </div>
-            <div class="feedback"></div>
-            <div class="explanation">【解説】3年「生命の連続性」の基本！細胞が分かれるから「細胞分裂」です。</div>
+    <div class="quiz-card">
+        <div class="subject-tag">社会・歴史</div>
+        <div class="question">Q4. 戦国大名が、自分の領国内を支配するために独自につくった法律を何という？</div>
+        <div class="options">
+            <button class="option-btn" onclick="checkAnswer(this, 0)">武家諸法度</button>
+            <button class="option-btn" onclick="checkAnswer(this, 1)">分国法（ぶんこくほう）</button>
         </div>
-        <div class="quiz-card" data-month="9" data-subject="sci">
-            <div class="question">Q2. [2年復習] 酸化銅に炭素の粉を混ぜて加熱した時、銅と一緒に発生する気体は何？</div>
-            <div class="options">
-                <button class="option-btn" onclick="checkAnswer(this, 0)">酸素</button>
-                <button class="option-btn" onclick="checkAnswer(this, 1)">二酸化炭素</button>
-            </div>
-            <div class="feedback"></div>
-            <div class="explanation">【解説】2年「化学変化と原子・分子」の超定番。酸化銅から酸素が奪われる「還元（かんげん）」が起き、炭素とくっついて二酸化炭素になります。</div>
-        </div>
-        <div class="quiz-card" data-month="9" data-subject="sci">
-            <div class="question">Q3. [1年復習] 光が鏡に跳ね返る時、「入射角」と「反射角」の大きさの関係はどうなっている？</div>
-            <div class="options">
-                <button class="option-btn" onclick="checkAnswer(this, 1)">常に同じ大きさになる</button>
-                <button class="option-btn" onclick="checkAnswer(this, 0)">入射角のほうが大きくなる</button>
-            </div>
-            <div class="feedback"></div>
-            <div class="explanation">【解説】1年「身のまわりの現象（光）」。これを「反射の法則」といい、角度はいつでも必ずイコールになります！</div>
-        </div>
-        <div class="quiz-card" data-month="9" data-subject="sci">
-            <div class="question">Q4. [3年範囲] 生殖細胞（卵や精子）ができる時に行われる、染色体の数が半分になる特別な細胞分裂は？</div>
-            <div class="options">
-                <button class="option-btn" onclick="checkAnswer(this, 0)">体細胞分裂</button>
-                <button class="option-btn" onclick="checkAnswer(this, 1)">減数分裂（げんすうぶんれつ）</button>
-            </div>
-            <div class="feedback"></div>
-            <div class="explanation">【解説】数が「減る」分裂だから「減数分裂」！合体した時に元の数に戻るための仕組みです。</div>
-        </div>
+        <div class="feedback"></div>
+        <div class="explanation">【解説】国を分けて支配する法律だから「分国法」！</div>
+    </div>
 
-        <!-- ==================== 9月号：社会 ==================== -->
-        <div class="quiz-card" data-month="9" data-subject="soc">
-            <div class="question">Q1. 室町時代、馬を使って荷物を運んだ「運送業者」を何という？</div>
-            <div class="options">
-                <button class="option-btn" onclick="checkAnswer(this, 1)">馬借（ばしゃく）</button>
-                <button class="option-btn" onclick="checkAnswer(this, 0)">土倉（どそう）</button>
-                <button class="option-btn" onclick="checkAnswer(this, 0)">町衆（まちしゅう）</button>
-            </div>
-            <div class="feedback"></div>
-            <div class="explanation">【解説】馬で運ぶから「馬借」！土倉は質屋（銀行）、町衆は京都のお金持ち商人です。</div>
+    <div class="quiz-card">
+        <div class="subject-tag">社会・歴史</div>
+        <div class="question">Q5. 織田信長が、座を廃止して自由に税金なしで商売していいよとした命令は？</div>
+        <div class="options">
+            <button class="option-btn" onclick="checkAnswer(this, 1)">楽市令（楽市・楽座）</button>
+            <button class="option-btn" onclick="checkAnswer(this, 0)">刀狩令</button>
         </div>
-        <div class="quiz-card" data-month="9" data-subject="soc">
-            <div class="question">Q2. 農民が「借金をチャラにしろ（徳政令）」と要求して起こした一揆は？</div>
-            <div class="options">
-                <button class="option-btn" onclick="checkAnswer(this, 0)">一向一揆</button>
-                <button class="option-btn" onclick="checkAnswer(this, 1)">土一揆（つちいっき）</button>
-                <button class="option-btn" onclick="checkAnswer(this, 0)">島原・天草一揆</button>
-            </div>
-            <div class="feedback"></div>
-            <div class="explanation">【解説】農民（土に生きる人）の借金チャラ一揆だから「土一揆」！</div>
+        <div class="feedback"></div>
+        <div class="explanation">【解説】市場を「楽しくフリー」にするから「楽市令」！</div>
+    </div>
+
+    <div class="quiz-card">
+        <div class="subject-tag">社会・歴史</div>
+        <div class="question">Q6. 豊臣秀吉が、農民が一揆を起こすのを防ぐために出した武器没収の命令は？</div>
+        <div class="options">
+            <button class="option-btn" onclick="checkAnswer(this, 0)">武家諸法度</button>
+            <button class="option-btn" onclick="checkAnswer(this, 1)">刀狩令（かたながりれい）</button>
         </div>
-        <div class="quiz-card" data-month="9" data-subject="soc">
-            <div class="question">Q3. 海賊（倭寇）と区別するために「割札」を使った日明貿易の別名は？</div>
-            <div class="options">
-                <button class="option-btn" onclick="checkAnswer(this, 1)">勘合貿易（かんごうぼうえき）</button>
-                <button class="option-btn" onclick="checkAnswer(this, 0)">朱印船貿易</button>
-            </div>
-            <div class="feedback"></div>
+        <div class="feedback"></div>
+        <div class="explanation">【解説】武器を取り上げるから「刀狩令」！</div>
+    </div>
+
+    <div class="quiz-card">
+        <div class="subject-tag">社会・歴史</div>
+        <div class="question">Q7. 豊臣秀吉が全国の田畑を調査し、収穫量を「石高」で表した政策は？</div>
+        <div class="options">
+            <button class="option-btn" onclick="checkAnswer(this, 1)">太閤検地（たいこうけんち）</button>
+            <button class="option-btn" onclick="checkAnswer(this, 0)">惣（そう）</button>
+        </div>
+        <div class="feedback"></div>
+        <div class="explanation">【解説】秀吉（太閤）が土地を検査したから「太閤検地」です。</div>
+    </div>
+
+    <div class="quiz-card">
+        <div class="subject-tag">社会・歴史</div>
+        <div class="question">Q8. 1492年、大西洋を渡りアメリカ大陸（西インド諸島）に到達した人物は？</div>
+        <div class="options">
+            <button class="option-btn" onclick="checkAnswer(this, 0)">マゼラン</button>
+            <button class="option-btn" onclick="checkAnswer(this, 1)">コロンブス</button>
+        </div>
+        <div class="feedback"></div>
+        <div class="explanation">【解説】1492年（意気揚々と）アメリカへ行ったのは「コロンブス」！</div>
+    </div>
+
+    <div class="quiz-card">
+        <div class="subject-tag">社会・歴史</div>
+        <div class="question">Q9. ザビエルが所属していた、世界中にキリスト教を広めるために作られた組織は？</div>
+        <div class="options">
+            <button class="option-btn" onclick="checkAnswer(this, 1)">イエズス会</button>
+            <button class="option-btn" onclick="checkAnswer(this, 0)">座（ざ）</button>
+        </div>
+        <div class="feedback"></div>
+        <div class="explanation">【解説】ザビエルがいたカトリックのグループが「イエズス会」です！</div>
+    </div>
+
+    <div class="quiz-card">
+        <div class="subject-tag">社会・歴史</div>
+        <div class="question">Q10. キリスト教、イスラム教、ユダヤ教の「3つの宗教の聖地」はどこ？</div>
+        <div class="options">
+            <button class="option-btn" onclick="checkAnswer(this, 0)">ローマ</button>
+            <button class="option-btn" onclick="checkAnswer(this, 1)">エルサレム</button>
+        </div>
+        <div class="feedback"></div>
+        <div class="explanation">【解説】3つの宗教の聖地といえば「エルサレム」です！</div>
+    </div>
+
+    <div class="quiz-card">
+        <div class="subject-tag">社会・歴史</div>
+        <div class="question">Q11. 江戸初期、天草四郎をリーダーに九州のキリシタンらが起こした大反乱は？</div>
+        <div class="options">
+            <button class="option-btn" onclick="checkAnswer(this, 1)">島原・天草一揆</button>
+            <button class="option-btn" onclick="checkAnswer(this, 0)">土一揆</button>
+        </div>
+        <div class="feedback"></div>
+        <div class="explanation">【解説】江戸時代のキリシタン大反乱だから「島原・天草一揆」です！</div>
+    </div>
+
+    <!-- 理科 -->
+    <div class="quiz-card">
+        <div class="subject-tag">理科・生物</div>
+        <div class="question">Q12. [3年] 生物の体が大きくなる時、1個の細胞が2個に分かれる現象を何という？</div>
+        <div class="options">
+            <button class="option-btn" onclick="checkAnswer(this, 1)">細胞分裂（さいぼうぶんれつ）</button>
+            <button class="option-btn" onclick="checkAnswer(this, 0)">化学変化</button>
+        </div>
+        <div class="feedback"></div>
+        <div class="explanation">【解説】3年「生命の連続性」の基本！細胞が分かれるから「細胞分裂」です。</div>
+    </div>
+
+    <div class="quiz-card">
+        <div class="subject-tag">理科・化学</div>
+        <div class="question">Q13. [2年復習] 酸化銅に炭素の粉を混ぜて加熱した時、銅と一緒に発生する気体は何？</div>
+        <div class="options">
+            <button class="option-btn" onclick="checkAnswer(this, 0)">酸素</button>
+            <button class="option-btn" onclick="checkAnswer(this, 1)">二酸化炭素</button>
+        </div>
+        <div class="feedback"></div>
+        <div class="explanation">【解説】酸化銅から酸素が奪われる「還元（かんげん）」が起き、炭素とくっついて二酸化炭素になります。</div>
+    </div>
+
+    <div class="quiz-card">
+        <div class="subject-tag">理科・物理</div>
