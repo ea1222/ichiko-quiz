@@ -4,288 +4,1289 @@ html = r'''<!DOCTYPE html>
 <html lang="ja">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>受験対策クイズ</title>
 <style>
-:root{--bg:#0b0e13;--panel:#131821;--panel2:#1a212c;--line:#2a3442;--text:#f3f6fa;--muted:#9aa6b5;--blue:#4da3ff;--blue2:#2d7dd2;--green:#42d392;--red:#ff6678;--gold:#ffd166}
-*{box-sizing:border-box}body{margin:0;background:linear-gradient(135deg,#080a0e,#101722);color:var(--text);font-family:system-ui,-apple-system,"Segoe UI","Noto Sans JP",sans-serif;min-height:100vh}
-button,input,select{font:inherit}button{cursor:pointer;border:0}.wrap{max-width:1100px;margin:auto;padding:22px}
-header{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:20px}.brand{font-size:25px;font-weight:900}.brand span{color:var(--blue)}.tag{font-size:12px;color:var(--muted)}
-.screen{display:none}.screen.active{display:block}.card{background:rgba(19,24,33,.96);border:1px solid var(--line);border-radius:18px;padding:24px;box-shadow:0 14px 40px #0005}
-.hero{text-align:center;padding:42px 20px}.hero h1{font-size:42px;margin:0 0 10px}.hero p{color:var(--muted);margin:0 0 28px}
-.field{display:flex;flex-direction:column;gap:8px;margin:14px 0}.field label{font-weight:700}.field input,.field select{background:#0d1219;border:1px solid var(--line);color:var(--text);border-radius:11px;padding:13px 14px;outline:none}.field input:focus,.field select:focus{border-color:var(--blue)}
-.btn{padding:13px 17px;border-radius:11px;background:var(--blue);color:#07101b;font-weight:900}.btn:hover{filter:brightness(1.08)}.btn.secondary{background:var(--panel2);color:var(--text);border:1px solid var(--line)}.btn.green{background:var(--green)}.btn.red{background:var(--red);color:#190308}.btn.small{padding:9px 12px;font-size:13px}
-.grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px}.grid3{grid-template-columns:repeat(3,1fr)}.option{background:var(--panel2);border:1px solid var(--line);padding:20px;border-radius:15px;text-align:left;color:var(--text)}.option:hover{border-color:var(--blue);transform:translateY(-1px)}.option b{display:block;font-size:18px;margin-bottom:5px}.option small{color:var(--muted)}
-.title{font-size:28px;font-weight:900;margin:0 0 6px}.sub{color:var(--muted);margin-bottom:20px}.back{margin-top:18px}
-.chips{display:flex;flex-wrap:wrap;gap:9px}.chip{background:#111721;border:1px solid var(--line);color:var(--text);padding:9px 12px;border-radius:999px}.chip.selected{border-color:var(--blue);background:#102944}
-.yearbox{margin:18px 0}.year{font-size:19px;font-weight:900;margin:22px 0 10px;color:#dfe9f5}
-.quiztop{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:14px}.progress{height:9px;background:#222a34;border-radius:99px;overflow:hidden}.progress i{display:block;height:100%;background:var(--blue);width:0}.qmeta{display:flex;justify-content:space-between;color:var(--muted);font-size:14px;margin:10px 0}.question{font-size:25px;font-weight:800;line-height:1.55;margin:22px 0}.answers{display:grid;gap:10px}.answer{background:#171e28;border:1px solid var(--line);color:var(--text);padding:15px;border-radius:12px;text-align:left}.answer:hover{border-color:var(--blue)}.answer.correct{border-color:var(--green);background:#123025}.answer.wrong{border-color:var(--red);background:#341820}.answer.disabled{pointer-events:none}
-.feedback{display:none;margin-top:16px;padding:16px;border-radius:13px;border:1px solid var(--line)}.feedback.show{display:block}.feedback.good{border-color:var(--green)}.feedback.bad{border-color:var(--red)}.feedback h3{margin:0 0 8px}.explain{color:#d7dee8;line-height:1.75}.tip{margin-top:10px;padding:11px;background:#0d141d;border-radius:9px;color:#dce8f7}
-.quizactions{display:flex;justify-content:flex-end;margin-top:16px}.hidden{display:none!important}
-.result{text-align:center}.score{font-size:54px;font-weight:950}.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin:22px 0}.stat{background:var(--panel2);padding:15px;border-radius:12px}.stat b{display:block;font-size:22px}.review{margin-top:20px;text-align:left}.reviewrow{padding:13px;border-bottom:1px solid var(--line)}.ok{color:var(--green)}.ng{color:var(--red)}
-.table{width:100%;border-collapse:collapse}.table th,.table td{padding:11px;border-bottom:1px solid var(--line);text-align:left}.rankme{background:#13253a}
-.roomcode{font-size:40px;letter-spacing:8px;font-weight:950;text-align:center;margin:18px}.roomlist{display:grid;gap:8px;margin:15px 0}.player{background:var(--panel2);padding:12px;border-radius:10px;display:flex;justify-content:space-between}
-.note{font-size:13px;color:var(--muted);line-height:1.7}.danger{color:var(--red)}.success{color:var(--green)}
-footer{padding:25px 0;text-align:center;color:var(--muted);font-size:12px}
-@media(max-width:700px){.wrap{padding:12px}.hero h1{font-size:32px}.grid,.grid3{grid-template-columns:1fr}.stats{grid-template-columns:repeat(2,1fr)}.question{font-size:21px}.card{padding:17px}.brand{font-size:20px}}
+:root{
+ --bg:#0b0f14;--bg2:#111722;--panel:#151c26;--panel2:#1b2430;
+ --line:#2b3746;--text:#f4f7fb;--muted:#9aa8b8;--blue:#55a8ff;
+ --blue2:#2f7fd3;--green:#45d58b;--red:#ff687b;--gold:#ffd166;
+ --shadow:0 18px 50px rgba(0,0,0,.32);--radius:18px;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+ margin:0;min-height:100vh;background:
+ radial-gradient(circle at 20% 0%,#172338 0,transparent 32%),
+ linear-gradient(145deg,var(--bg),#0f151d 55%,#0a0d12);
+ color:var(--text);font-family:system-ui,-apple-system,"Segoe UI","Noto Sans JP",sans-serif;
+}
+button,input,select{font:inherit}
+button{cursor:pointer}
+button:disabled{cursor:not-allowed;opacity:.55}
+.app{max-width:1160px;margin:auto;padding:18px}
+header{
+ display:flex;align-items:center;justify-content:space-between;gap:14px;
+ padding:10px 2px 18px;
+}
+.logo{font-size:25px;font-weight:950;letter-spacing:.02em}
+.logo em{font-style:normal;color:var(--blue)}
+.header-right{display:flex;align-items:center;gap:9px}
+.header-chip{font-size:12px;color:var(--muted);border:1px solid var(--line);padding:7px 10px;border-radius:99px;background:#111720}
+.screen{display:none}
+.screen.active{display:block}
+.card{
+ background:rgba(21,28,38,.97);border:1px solid var(--line);border-radius:var(--radius);
+ padding:24px;box-shadow:var(--shadow);
+}
+.hero{text-align:center;padding:54px 22px}
+.hero-icon{font-size:54px;margin-bottom:8px}
+.hero h1{font-size:clamp(34px,7vw,58px);line-height:1.1;margin:0 0 12px}
+.hero h1 span{color:var(--blue)}
+.hero p{max-width:650px;margin:0 auto 28px;color:var(--muted);line-height:1.8}
+.title{font-size:29px;line-height:1.25;margin:0 0 7px;font-weight:950}
+.subtitle{color:var(--muted);margin:0 0 22px;line-height:1.7}
+.section-title{font-size:19px;font-weight:900;margin:25px 0 11px}
+.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+.grid3{grid-template-columns:repeat(3,minmax(0,1fr))}
+.grid4{grid-template-columns:repeat(4,minmax(0,1fr))}
+.option{
+ text-align:left;color:var(--text);background:var(--panel2);border:1px solid var(--line);
+ border-radius:15px;padding:20px;transition:.16s;
+}
+.option:hover{border-color:var(--blue);transform:translateY(-2px);background:#1d2a39}
+.option .icon{font-size:26px;margin-bottom:8px}
+.option b{display:block;font-size:18px;margin-bottom:6px}
+.option small{display:block;color:var(--muted);line-height:1.6}
+.btn{
+ border:0;border-radius:12px;padding:13px 18px;background:var(--blue);color:#06101a;
+ font-weight:950;transition:.15s;
+}
+.btn:hover{filter:brightness(1.08);transform:translateY(-1px)}
+.btn.secondary{background:var(--panel2);color:var(--text);border:1px solid var(--line)}
+.btn.green{background:var(--green);color:#06150e}
+.btn.red{background:var(--red);color:#20060b}
+.btn.gold{background:var(--gold);color:#171006}
+.btn.small{padding:9px 12px;font-size:13px}
+.actions{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+.center{justify-content:center}
+.back{margin-top:18px}
+.field{display:flex;flex-direction:column;gap:7px;margin:12px 0}
+.field label{font-weight:800}
+.field input,.field select{
+ width:100%;background:#0d131b;color:var(--text);border:1px solid var(--line);
+ border-radius:11px;padding:13px 14px;outline:none;
+}
+.field input:focus,.field select:focus{border-color:var(--blue)}
+.badge{
+ display:inline-flex;align-items:center;gap:6px;border:1px solid var(--line);
+ background:#101720;color:var(--muted);padding:6px 9px;border-radius:99px;font-size:12px;
+}
+.choice-row{display:flex;flex-wrap:wrap;gap:9px}
+.chip{
+ border:1px solid var(--line);background:#101720;color:var(--text);
+ padding:10px 13px;border-radius:999px;
+}
+.chip:hover{border-color:var(--blue)}
+.chip.selected{background:#123052;border-color:var(--blue);color:#fff}
+.notice{
+ border:1px solid #344353;background:#101820;color:#c5d0dc;
+ border-radius:12px;padding:13px;line-height:1.7;font-size:13px;margin-top:14px;
+}
+.notice.good{border-color:#285b48;background:#0f211b}
+.notice.warn{border-color:#6a5430;background:#211b10}
+.hidden{display:none!important}
+.muted{color:var(--muted)}
+.smalltext{font-size:13px}
+.year-block{margin-top:20px}
+.year-heading{
+ display:flex;align-items:center;justify-content:space-between;gap:10px;
+ font-size:18px;font-weight:950;margin-bottom:10px;
+}
+.subject-card{min-height:120px}
+.unit-grid{display:flex;flex-wrap:wrap;gap:9px}
+.unit{
+ border:1px solid var(--line);background:#101720;color:#dfe7f0;
+ border-radius:11px;padding:10px 12px;
+}
+.unit:hover,.unit.selected{border-color:var(--blue);background:#123052}
+.summary{
+ display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;margin:20px 0;
+}
+.summary .mini{background:var(--panel2);border:1px solid var(--line);border-radius:13px;padding:13px}
+.mini span{display:block;color:var(--muted);font-size:12px;margin-bottom:4px}
+.mini b{font-size:15px}
+.quiz-head{
+ display:grid;grid-template-columns:1fr auto;gap:15px;align-items:center;margin-bottom:12px;
+}
+.quiz-title{font-weight:900;font-size:17px}
+.timer{font-variant-numeric:tabular-nums;font-size:22px;font-weight:950;color:var(--blue)}
+.progress{height:10px;border-radius:99px;background:#222c38;overflow:hidden}
+.progress > i{display:block;width:0;height:100%;background:var(--blue);transition:width .2s}
+.meta{display:flex;justify-content:space-between;gap:12px;color:var(--muted);font-size:13px;margin:9px 0 18px}
+.question-box{padding:8px 0}
+.question-label{color:var(--blue);font-size:13px;font-weight:900}
+.question{
+ font-size:clamp(21px,3vw,29px);font-weight:900;line-height:1.65;
+ margin:8px 0 22px;white-space:pre-wrap;
+}
+.answer-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:11px}
+.answer{
+ text-align:left;color:var(--text);background:#18212c;border:1px solid var(--line);
+ padding:15px;border-radius:12px;line-height:1.5;min-height:58px;
+}
+.answer:hover{border-color:var(--blue);background:#1c2b3a}
+.answer.correct{border-color:var(--green);background:#123025}
+.answer.wrong{border-color:var(--red);background:#351a22}
+.answer.disabled{pointer-events:none}
+.feedback{
+ margin-top:17px;padding:17px;border-radius:14px;border:1px solid var(--line);
+ background:#0e151d;
+}
+.feedback.good{border-color:#2b6b50}
+.feedback.bad{border-color:#73313d}
+.feedback-title{font-size:21px;font-weight:950;margin-bottom:9px}
+.feedback.good .feedback-title{color:var(--green)}
+.feedback.bad .feedback-title{color:var(--red)}
+.explain{line-height:1.8;color:#dbe4ee}
+.tip{
+ margin-top:12px;background:#111b25;border:1px solid #293847;
+ border-radius:10px;padding:12px;line-height:1.75;color:#e1eaf4;
+}
+.answer-input{font-size:20px;padding:15px!important}
+.result-hero{text-align:center;padding:32px 12px 8px}
+.result-score{font-size:clamp(50px,11vw,88px);font-weight:1000;line-height:1}
+.result-message{font-size:18px;font-weight:850;margin-top:10px}
+.result-stats{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:10px;margin:25px 0}
+.result-stat{background:var(--panel2);border:1px solid var(--line);border-radius:13px;padding:14px;text-align:center}
+.result-stat span{display:block;color:var(--muted);font-size:12px}
+.result-stat b{display:block;font-size:20px;margin-top:4px}
+.review{
+ border:1px solid var(--line);border-radius:14px;overflow:hidden;margin-top:18px;
+}
+.review-head{padding:14px;background:#111821;font-weight:900}
+.review-row{padding:14px;border-top:1px solid var(--line);line-height:1.7}
+.review-row b{display:block;margin-bottom:5px}
+.review-row .answer-good{color:var(--green)}
+.review-row .answer-bad{color:var(--red)}
+.empty{padding:28px;text-align:center;color:var(--muted)}
+.rank-tabs{display:flex;flex-wrap:wrap;gap:8px;margin:15px 0}
+.rank-table-wrap{overflow:auto;border:1px solid var(--line);border-radius:13px}
+table{width:100%;border-collapse:collapse;min-width:650px}
+th,td{padding:12px 13px;border-bottom:1px solid var(--line);text-align:left}
+th{background:#111821;color:#b9c7d5;font-size:13px}
+tr:last-child td{border-bottom:0}
+.me{background:#13283d}
+.rank-number{font-weight:950;color:var(--gold)}
+.room-code{
+ text-align:center;font-size:clamp(38px,8vw,64px);font-weight:1000;
+ letter-spacing:9px;margin:14px 0 19px;color:var(--blue);
+}
+.player-list{display:grid;gap:9px;margin:12px 0 18px}
+.player{
+ display:flex;justify-content:space-between;gap:10px;align-items:center;
+ background:var(--panel2);border:1px solid var(--line);padding:12px 14px;border-radius:11px;
+}
+.player small{color:var(--muted)}
+.step{
+ display:flex;gap:9px;align-items:center;overflow:auto;padding-bottom:3px;margin-bottom:18px;
+}
+.step span{
+ white-space:nowrap;border:1px solid var(--line);background:#101720;color:var(--muted);
+ border-radius:99px;padding:7px 10px;font-size:12px;
+}
+.step span.active{border-color:var(--blue);background:#123052;color:#fff}
+.weak-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.weak-card{background:var(--panel2);border:1px solid var(--line);border-radius:13px;padding:15px}
+.weak-card b{display:block;margin-bottom:5px}
+footer{text-align:center;color:#728091;font-size:12px;padding:24px 0}
+@media(max-width:800px){
+ .grid3,.grid4{grid-template-columns:repeat(2,minmax(0,1fr))}
+ .summary{grid-template-columns:repeat(2,minmax(0,1fr))}
+ .result-stats{grid-template-columns:repeat(3,minmax(0,1fr))}
+}
+@media(max-width:600px){
+ .app{padding:10px}
+ header{align-items:flex-start}.header-right{display:none}
+ .card{padding:17px}.grid,.grid3,.grid4,.answer-grid,.weak-grid{grid-template-columns:1fr}
+ .hero{padding:36px 12px}.hero h1{font-size:36px}
+ .result-stats{grid-template-columns:repeat(2,minmax(0,1fr))}
+ .quiz-head{grid-template-columns:1fr auto}.timer{font-size:19px}
+}
 </style>
 </head>
 <body>
-<div class="wrap">
-<header><div class="brand">受験対策<span>クイズ</span></div><div class="tag">中学1〜3年・5教科対応</div></header>
+<div class="app">
+<header>
+ <div class="logo">受験対策<em>クイズ</em></div>
+ <div class="header-right">
+  <span id="headerUser" class="header-chip">ゲスト</span>
+  <button class="btn secondary small" onclick="show('ranking');renderRanking()">ランキング</button>
+ </div>
+</header>
 
+<!-- LOGIN -->
 <section id="login" class="screen active">
-<div class="card hero">
-<h1>受験対策クイズ</h1><p>勉強を、ちょっとゲームっぽく。自分の弱点まで見つけよう。</p>
-<div class="field" style="max-width:420px;margin:0 auto 15px"><label>ユーザーネーム</label><input id="username" maxlength="20" placeholder="名前を入力"></div>
-<button class="btn" onclick="saveName()">スタート</button>
-</div></section>
+ <div class="card hero">
+  <div class="hero-icon">📚</div>
+  <h1>受験対策<span>クイズ</span></h1>
+  <p>
+   中学1〜3年・5教科。単元別、過去問題、選択式、入力式、弱点克服まで。
+   「勉強する」だけじゃなく、自分の苦手を見つけてつぶす。
+  </p>
+  <div style="max-width:430px;margin:auto">
+   <div class="field">
+    <label for="username">ユーザーネーム</label>
+    <input id="username" maxlength="20" placeholder="名前だけでスタート">
+   </div>
+   <button class="btn" style="width:100%" onclick="saveName()">スタート</button>
+  </div>
+  <div class="notice">
+   メールアドレスなどの登録は不要。名前だけで始められるよ。
+  </div>
+ </div>
+</section>
 
-<section id="mode" class="screen"><div class="card">
-<h2 class="title">モードを選択</h2><p class="sub">どっちで挑戦する？</p>
-<div class="grid">
-<button class="option" onclick="openSolo()"><b>1人用モード</b><small>学年・教科・単元・問題数・形式を自由に選んで練習</small></button>
-<button class="option" onclick="openBattle()"><b>対戦用モード</b><small>ルームコードで友達と同じ問題に挑戦</small></button>
-</div>
-</div></section>
+<!-- MODE -->
+<section id="mode" class="screen">
+ <div class="card">
+  <h2 class="title">モードを選択</h2>
+  <p class="subtitle">今日はどのやり方で勉強する？</p>
+  <div class="grid">
+   <button class="option" onclick="openSolo()">
+    <div class="icon">🎯</div><b>1人用モード</b>
+    <small>学年・教科・単元・過去問題・問題形式・問題数・難易度を自由に選べる。</small>
+   </button>
+   <button class="option" onclick="openBattle()">
+    <div class="icon">⚔️</div><b>対戦用モード</b>
+    <small>ルームコードで友達と同じ問題に挑戦。正解数と時間で勝負。</small>
+   </button>
+   <button class="option" onclick="openToday()">
+    <div class="icon">🔥</div><b>今日の10問</b>
+    <small>5教科からランダムに10問。毎日のトレーニング用。</small>
+   </button>
+   <button class="option" onclick="openWeak()">
+    <div class="icon">🧠</div><b>弱点克服モード</b>
+    <small>これまで間違えた問題を中心に復習する。</small>
+   </button>
+  </div>
+  <div class="actions center" style="margin-top:18px">
+   <button class="btn secondary" onclick="show('ranking');renderRanking()">ランキングを見る</button>
+  </div>
+ </div>
+</section>
 
-<section id="solo" class="screen"><div class="card">
-<h2 class="title">1人用モード</h2><p class="sub">順番に選んで、自分だけの10問を作ろう。</p>
-<div class="field"><label>学年</label><select id="grade" onchange="renderSubjects()"><option value="1">中学1年</option><option value="2">中学2年</option><option value="3" selected>中学3年</option></select></div>
-<div id="subjectArea"></div>
-<div id="unitArea"></div>
-<div id="setArea"></div>
-<div id="typeArea"></div>
-<div id="countArea"></div>
-<div id="difficultyArea"></div>
-<div style="margin-top:20px"><button class="btn" onclick="startSolo()">この条件でスタート</button></div>
-<button class="btn secondary back" onclick="show('mode')">戻る</button>
-</div></section>
+<!-- SOLO -->
+<section id="solo" class="screen">
+ <div class="card">
+  <h2 class="title">1人用モード</h2>
+  <p class="subtitle">「中3 → 数学 → 平方根 → 入力問題 → 20問」みたいに細かく選べる。</p>
+  <div class="step" id="steps"></div>
 
-<section id="battle" class="screen"><div class="card">
-<h2 class="title">対戦用モード</h2><p class="sub">同じ10問を解いて、正解数→時間で勝負。</p>
-<div class="grid">
-<button class="option" onclick="createRoom()"><b>ルームを作る</b><small>6文字のルームコードを発行</small></button>
-<button class="option" onclick="joinRoom()"><b>ルームに入る</b><small>友達から教えてもらったコードを入力</small></button>
-</div>
-<div id="roomPanel" class="hidden"></div>
-<button class="btn secondary back" onclick="show('mode')">戻る</button>
-</div></section>
+  <div class="section-title">① 学年</div>
+  <div class="choice-row" id="gradeChoices"></div>
 
-<section id="quiz" class="screen"><div class="card">
-<div class="quiztop"><b id="quizMode"></b><b id="timer">00:00</b></div>
-<div class="progress"><i id="bar"></i></div><div class="qmeta"><span id="qnum"></span><span id="qsource"></span></div>
-<div id="question" class="question"></div><div id="answers" class="answers"></div>
-<div id="feedback" class="feedback"><h3 id="feedbackTitle"></h3><div id="explain" class="explain"></div><div id="tip" class="tip"></div></div>
-<div class="quizactions"><button id="next" class="btn hidden" onclick="nextQuestion()">次の問題</button></div>
-</div></section>
+  <div class="section-title">② 教科</div>
+  <div class="grid grid3" id="subjectChoices"></div>
 
-<section id="result" class="screen"><div class="card result">
-<h2 class="title" id="resultTitle">結果</h2><div id="resultScore" class="score"></div>
-<div id="resultMsg"></div><div class="stats" id="stats"></div>
-<div class="review"><h3>今回の振り返り</h3><div id="reviewList"></div></div>
-<div style="margin-top:20px;display:flex;gap:10px;justify-content:center;flex-wrap:wrap"><button class="btn" onclick="retry()">もう一度挑戦</button><button class="btn secondary" onclick="show('mode');renderRank()">メニューへ</button></div>
-</div></section>
+  <div class="section-title">③ 単元</div>
+  <div id="unitChoices"></div>
 
-<section id="ranking" class="screen"><div class="card"><h2 class="title">ランキング</h2><p class="sub">正解数が多い順。同点なら速い人が上位。</p><div id="rankTabs" class="chips"></div><div id="rankTable"></div><button class="btn secondary back" onclick="show('mode')">戻る</button></div></section>
-<footer>受験対策クイズ / ローカルランキング対応・オンライン対戦はFirebase等の接続が必要</footer>
+  <div class="section-title">④ 問題セット</div>
+  <div class="choice-row" id="setChoices"></div>
+
+  <div class="section-title">⑤ 問題形式</div>
+  <div class="choice-row" id="typeChoices"></div>
+
+  <div class="section-title">⑥ 問題数</div>
+  <div class="choice-row" id="countChoices"></div>
+
+  <div class="section-title">⑦ 難易度</div>
+  <div class="choice-row" id="difficultyChoices"></div>
+
+  <div class="summary" id="selectionSummary"></div>
+  <div id="selectionNotice"></div>
+
+  <div class="actions">
+   <button class="btn" onclick="startSolo()">この条件でスタート</button>
+   <button class="btn secondary" onclick="show('mode')">戻る</button>
+  </div>
+ </div>
+</section>
+
+<!-- BATTLE -->
+<section id="battle" class="screen">
+ <div class="card">
+  <h2 class="title">対戦用モード</h2>
+  <p class="subtitle">友達と同じ10問。正解数が多い人が勝ち。同点なら時間が短い人が上位。</p>
+  <div class="grid">
+   <button class="option" onclick="createRoom()">
+    <div class="icon">➕</div><b>ルームを作る</b>
+    <small>6文字のルームコードを発行して友達を招待。</small>
+   </button>
+   <button class="option" onclick="joinRoom()">
+    <div class="icon">🔑</div><b>ルームに入る</b>
+    <small>友達から教えてもらった6文字のコードを入力。</small>
+   </button>
+  </div>
+  <div id="roomPanel" class="hidden"></div>
+  <div class="notice warn">
+   この単体HTMLでは別端末とのリアルタイム通信はできないため、現在の対戦画面はローカルデモ。
+   本物のオンライン対戦にする場合はFirebase等のリアルタイムDB接続が必要。
+  </div>
+  <button class="btn secondary back" onclick="show('mode')">戻る</button>
+ </div>
+</section>
+
+<!-- TODAY -->
+<section id="today" class="screen">
+ <div class="card">
+  <h2 class="title">今日の10問</h2>
+  <p class="subtitle">中1〜中3・5教科から、受験対策としてランダムに10問。</p>
+  <div class="notice good">
+   今日の10問は「毎日少しずつ続ける」ためのモード。終わったら弱点も確認できる。
+  </div>
+  <div class="actions center" style="margin-top:20px">
+   <button class="btn" onclick="startToday()">今日の10問を始める</button>
+   <button class="btn secondary" onclick="show('mode')">戻る</button>
+  </div>
+ </div>
+</section>
+
+<!-- WEAK -->
+<section id="weak" class="screen">
+ <div class="card">
+  <h2 class="title">弱点克服モード</h2>
+  <p class="subtitle">過去の間違いを集めて、苦手をつぶす。</p>
+  <div id="weakSummary"></div>
+  <div class="actions center" style="margin-top:20px">
+   <button class="btn" onclick="startWeak()">弱点克服を始める</button>
+   <button class="btn secondary" onclick="clearMistakes()">間違い履歴を消去</button>
+   <button class="btn secondary" onclick="show('mode')">戻る</button>
+  </div>
+ </div>
+</section>
+
+<!-- QUIZ -->
+<section id="quiz" class="screen">
+ <div class="card">
+  <div class="quiz-head">
+   <div>
+    <div id="quizTitle" class="quiz-title">問題</div>
+    <div id="quizSub" class="muted smalltext"></div>
+   </div>
+   <div id="timer" class="timer">00:00</div>
+  </div>
+  <div class="progress"><i id="progressBar"></i></div>
+  <div class="meta">
+   <span id="questionNumber">1 / 10</span>
+   <span id="sourceLabel">単元別</span>
+  </div>
+  <div class="question-box">
+   <div id="questionLabel" class="question-label">QUESTION</div>
+   <div id="questionText" class="question"></div>
+  </div>
+  <div id="answerArea"></div>
+  <div id="feedback" class="feedback hidden">
+   <div id="feedbackTitle" class="feedback-title"></div>
+   <div id="explanation" class="explain"></div>
+   <div id="tip" class="tip"></div>
+  </div>
+  <div class="actions" style="justify-content:flex-end;margin-top:17px">
+   <button id="nextButton" class="btn hidden" onclick="nextQuestion()">次の問題</button>
+  </div>
+ </div>
+</section>
+
+<!-- RESULT -->
+<section id="result" class="screen">
+ <div class="card">
+  <div class="result-hero">
+   <h2 id="resultHeading" class="title">結果</h2>
+   <div id="resultScore" class="result-score"></div>
+   <div id="resultMessage" class="result-message"></div>
+  </div>
+  <div id="resultStats" class="result-stats"></div>
+  <div id="weakAnalysis"></div>
+  <div class="review">
+   <div class="review-head">今回の振り返り</div>
+   <div id="reviewList"></div>
+  </div>
+  <div class="actions center" style="margin-top:20px">
+   <button class="btn" onclick="retryQuiz()">もう一度挑戦</button>
+   <button class="btn green" onclick="startWeakFromLast()">今回のミスだけ復習</button>
+   <button class="btn secondary" onclick="show('mode')">メニューへ</button>
+   <button class="btn secondary" onclick="show('ranking');renderRanking()">ランキング</button>
+  </div>
+ </div>
+</section>
+
+<!-- RANKING -->
+<section id="ranking" class="screen">
+ <div class="card">
+  <h2 class="title">ランキング</h2>
+  <p class="subtitle">正解数が多い順。同点なら所要時間が短い順。</p>
+  <div id="rankTabs" class="rank-tabs"></div>
+  <div id="rankTable"></div>
+  <button class="btn secondary back" onclick="show('mode')">戻る</button>
+ </div>
+</section>
+
+<footer>受験対策クイズ / 名前だけでスタート / 中学1〜3年・5教科</footer>
 </div>
 
 <script>
-const $=id=>document.getElementById(id);
-const subjects={
-英語:["be動詞・一般動詞","疑問文・否定文","過去形","未来表現","助動詞","不定詞","動名詞","比較","受動態","現在完了","接続詞","関係代名詞","間接疑問文","長文読解","英作文"],
-数学:["正の数・負の数","文字式","一次方程式","比例・反比例","平面図形","空間図形","データの活用","式の計算","連立方程式","一次関数","図形の性質","確率","多項式・因数分解","平方根","二次方程式","関数 y=ax²","相似","円","三平方の定理","標本調査"],
-国語:["説明的文章","文学的文章","古文","漢文","文法","漢字・語句","敬語","作文・記述","資料読解"],
-理科:["身の回りの生物","植物","動物","大地・地震","火山・地層","光・音・力","物質とその性質","化学変化","電流","磁界","天気・気象","地球と宇宙","生物の成長と遺伝","酸・アルカリとイオン","運動とエネルギー","化学変化と電池"],
-社会:["世界の地域構成","日本の地域構成","世界の諸地域","日本の地理","人口・産業","日本の諸地域","古代日本","中世日本","近世日本","近代日本","現代日本","古代中国・東アジア","中世ヨーロッパ","近代世界","現代世界","政治","経済","国際社会"]
+/* =========================================================
+   基本データ
+========================================================= */
+
+const $ = id => document.getElementById(id);
+
+const SUBJECTS = {
+  "英語": {
+    1:["be動詞・一般動詞","疑問文・否定文","代名詞","名詞・複数形","現在形","過去形","未来表現","疑問詞","助動詞","命令文","can","There is / are","現在進行形","過去進行形","英単語","基本語順"],
+    2:["過去形","未来表現","助動詞","不定詞","動名詞","比較","接続詞","文型","There is / are","受け身","英単語","長文読解","英作文"],
+    3:["現在完了","受動態","不定詞・動名詞","分詞","関係代名詞","間接疑問文","接続詞","比較","助動詞","長文読解","英作文","総合文法"]
+  },
+  "数学": {
+    1:["正の数・負の数","文字式","一次方程式","比例・反比例","平面図形","空間図形","データの活用","作図","基本図形","資料の整理"],
+    2:["式の計算","連立方程式","一次関数","図形の性質","確率","データの活用","式の利用","合同","証明"],
+    3:["多項式・因数分解","平方根","二次方程式","関数 y=ax²","相似","円","三平方の定理","標本調査","図形の計量","入試総合"]
+  },
+  "国語": {
+    1:["漢字・語句","文法","説明的文章","文学的文章","古文","詩・短歌・俳句","作文・記述","敬語"],
+    2:["漢字・語句","文法","説明的文章","文学的文章","古文","漢文","詩・短歌・俳句","作文・記述","敬語"],
+    3:["漢字・語句","文法","説明的文章","文学的文章","古文","漢文","詩・短歌・俳句","作文・記述","敬語","入試読解"]
+  },
+  "理科": {
+    1:["身の回りの生物","植物","動物","大地・地震","火山・地層","光・音・力","物質とその性質","水溶液","気体","密度"],
+    2:["生物の体","化学変化","電流","磁界","天気・気象","物質の化学変化","原子・分子","回路","気象観測"],
+    3:["生物の成長と遺伝","酸・アルカリとイオン","運動とエネルギー","化学変化と電池","地球と宇宙","天体","力と運動","仕事・エネルギー","入試総合"]
+  },
+  "社会": {
+    1:["世界の地域構成","日本の地域構成","世界の諸地域","日本の地理","人口・産業","日本の諸地域","古代日本","古代中国・東アジア","中世日本","歴史総合"],
+    2:["中世日本","近世日本","近代日本","世界の歴史","日本の地理","産業・人口","江戸時代","明治時代","歴史資料"],
+    3:["近代日本","現代日本","近代世界","現代世界","政治","経済","国際社会","憲法","選挙・三権分立","入試総合"]
+  }
 };
-const state={name:"",mode:"",grade:"3",subject:"数学",unit:"すべて",set:"単元別",type:"choice",count:10,diff:"all",questions:[],index:0,score:0,answered:false,start:0,elapsed:0,wrong:[],room:""};
-let timerId=null,lastConfig=null;
 
-const bank=[];
-function add(subject,grade,unit,q,choices,ans,exp,tip,diff="standard",set="単元別"){
- bank.push({subject,grade,unit,q,choices,ans,exp,tip,diff,set});
+const state = {
+ name:"",
+ mode:"",
+ grade:"3",
+ subject:"数学",
+ unit:"すべて",
+ set:"単元別",
+ type:"choice",
+ count:10,
+ difficulty:"all",
+ questions:[],
+ index:0,
+ score:0,
+ wrong:[],
+ startTime:0,
+ elapsed:0,
+ answered:false,
+ room:"",
+ lastConfig:null,
+ lastWrong:[],
+ today:false,
+ weak:false
+};
+
+let timerId = null;
+
+/* =========================================================
+   問題バンク
+   ここに問題を追加すれば、選択条件に自動反映される。
+========================================================= */
+
+const BANK = [];
+
+function add(subject,grade,unit,q,choices,ans,explain,tip,difficulty="standard",set="単元別",inputAnswer=null){
+  BANK.push({
+    subject,grade:String(grade),unit,q,choices,ans,explain,tip,difficulty,set,
+    inputAnswer:inputAnswer || (choices ? choices.split(" / ")[ans] : "")
+  });
 }
-// 英語
-add("英語",1,"be動詞・一般動詞","She ( ) a student.","is / are / am / do",0,"She は三人称単数なので be動詞は is。","主語が I→am、you/we/they→are、he/she/it→is。","basic");
-add("英語",1,"疑問文・否定文","（　）you play tennis?","Do / Is / Are / Does",0,"play は一般動詞なので Do を使う。","一般動詞の疑問文は Do/Does。be動詞なら Is/Are。","standard");
-add("英語",2,"過去形","My father ( ) the book last night.","doesn't read / didn't read / isn't read / wasn't read",1,"last night があるので過去。一般動詞 read の過去の否定は didn't read。","last night、yesterday、ago は過去形の強いサイン。","standard");
-add("英語",2,"接続詞","I stayed home ( ) it was raining.","because / where / when / who",0,"理由を表すので because。","Because＝なぜなら、を見つけたら理由の文。","basic");
-add("英語",3,"助動詞","Mike and I ( ) able to take that train.","are / is / am / does",0,"Mike and I は2人なので複数。are able to となる。","A and B は基本的に複数扱い。","standard");
-add("英語",3,"過去形","Before I ( ), I always imagined the next day.","slept / sleep / sleeping / am sleeping",0,"過去の出来事を語る文脈なので slept。","文全体の時間軸を見て時制を決める。","entrance");
-add("英語",3,"疑問文・否定文","Because I was tired, I went home. What question word asks for the reason?","Why / Where / Who / When",0,"答えが Because ～ なら理由を聞いているので Why。","Because＝理由、場所なら Where、人物なら Who。","standard");
-add("英語",3,"疑問文・否定文","We played soccer in the park. Which question word asks for the place?","Why / Where / Who / What",1,"in the park は場所なので Where。","場所→Where。理由→Why。","basic");
-add("英語",3,"語順","「私は昨日、図書館で英語を勉強しました。」に合う英文の語順を考える。","I studied English at the library yesterday. / I English studied yesterday library. / Yesterday English I studied library. / I studied yesterday the English at library.",0,"英語は基本的に 主語→動詞→目的語。その後に場所・時などを置く。","語順に迷ったら「だれ・どうする・なにを・どこで・いつ」。","entrance");
-// 数学
-add("数学",1,"正の数・負の数","(-3)+8 = ?","3 / 5 / -5 / 11",1,"異符号の加法は絶対値の差。8-3=5で、絶対値が大きい8の符号が＋。","異符号→引き算、絶対値が大きい方の符号。","basic");
-add("数学",1,"文字式","x=3 のとき 2x+5 は？","8 / 10 / 11 / 13",2,"2×3+5=11。","文字に数を代入したら、まず掛け算。","basic");
-add("数学",1,"一次方程式","2x+3=11 の x は？","3 / 4 / 5 / 7",1,"3を移項して2x=8、よってx=4。","移項するときは符号が変わる。","standard");
-add("数学",1,"比例・反比例","y=3x のとき x=4 なら y は？","7 / 12 / 1 / 4",1,"3×4=12。","比例は y=ax の形。a が比例定数。","basic");
-add("数学",2,"連立方程式","x+y=7、x-y=1 の x は？","2 / 3 / 4 / 5",2,"2式を足すと2x=8なのでx=4。","加減法は同類の文字を消す。","standard");
-add("数学",2,"一次関数","y=2x+1 で x=3 のとき y は？","5 / 6 / 7 / 8",2,"2×3+1=7。","一次関数 y=ax+b は代入で求められる。","basic");
-add("数学",2,"確率","袋に赤2個、青3個。1個取り出すとき赤の確率は？","1/5 / 2/5 / 3/5 / 1/2",1,"全5個のうち赤2個なので2/5。","確率＝起こる場合の数÷すべての場合の数。","standard");
-add("数学",3,"平方根","√49 = ?","6 / 7 / 8 / 14",1,"7×7=49なので√49=7。","√a は「2乗するとaになる正の数」。","basic");
-add("数学",3,"多項式・因数分解","x²+5x+6 を因数分解すると？","(x+1)(x+6) / (x+2)(x+3) / (x-2)(x-3) / (x+5)(x+1)",1,"積が6、和が5になる2と3を使う。","x²+bx+c は、積c・和bになる2数を探す。","entrance");
-add("数学",3,"二次方程式","x²-5x+6=0 の解は？","1,6 / 2,3 / -2,-3 / 3,5",1,"(x-2)(x-3)=0 なので x=2,3。","因数分解できる二次方程式はまず積の形を探す。","entrance");
-add("数学",3,"関数 y=ax²","y=ax² で x=2、y=12 のとき a は？","2 / 3 / 4 / 6",1,"12=4aなのでa=3。","y=ax² に分かっている値を代入。","entrance");
-add("数学",3,"相似","相似な図形で対応する辺の比が2:3なら、長さ4cmの辺に対応する辺は？","5cm / 6cm / 7cm / 8cm",1,"4: x = 2:3 より x=6。","対応する順番をそろえて比例式。","standard");
-add("数学",3,"三平方の定理","直角三角形の2辺が3cm、4cm。斜辺は？","5cm / 6cm / 7cm / 8cm",0,"3²+4²=25、√25=5。","斜辺²＝他の2辺²の和。","entrance");
-add("数学",3,"円","円周角は同じ弧に対する中心角の何分の1？","1/2 / 1/3 / 2倍 / 4倍",0,"円周角は同じ弧に対する中心角の半分。","中心角と円周角の関係は頻出。","standard");
-// 理科
-add("理科",1,"物質とその性質","質量パーセント濃度の分母は何？","水の質量 / 溶質の質量 / 溶液の質量 / 容器の質量",2,"濃度＝溶質÷溶液×100。溶液は水＋溶質。","分母は『全部』＝溶液。","standard");
-add("理科",2,"化学変化","銅と酸素が化合するとき、銅:酸素の質量比は？","4:1 / 1:4 / 2:1 / 3:2",0,"銅4に対して酸素1。合わせて5。","『どう・さん・し・いち』で4:1を覚える。","entrance");
-add("理科",2,"化学変化","マグネシウムと酸素の質量比は？","3:2 / 2:3 / 1:2 / 4:1",0,"マグネシウム3、酸素2、化合物5の比。","『ま・さ・み・じ』で3:2を意識。","entrance");
-add("理科",3,"化学変化","炭酸水素ナトリウムを加熱するとき、試験管の口を少し下げる主な理由は？","酸素を集めるため / 水滴が加熱部へ戻るのを防ぐため / 温度を下げるため / 音を小さくするため",1,"発生した水が冷えて口側に集まり、それが加熱部へ戻ると試験管が割れる危険がある。","加熱実験は『水の逆流防止』をチェック。","entrance");
-add("理科",1,"光・音・力","光が鏡に当たるとき、入射角と反射角の関係は？","入射角の2倍 / 等しい / 常に90° / 反射角が0°",1,"反射の法則では入射角＝反射角。","角度は法線から測る。","basic");
-add("理科",2,"電流","電圧=6V、抵抗=3Ωのとき電流は？","1A / 2A / 3A / 18A",1,"オームの法則 I=V/R より2A。","V=RI、I=V/R、R=V/I。","standard");
-add("理科",3,"天気・気象","低気圧では一般に空気はどう動く？","下降する / 上昇する / 動かない / 必ず西へ",1,"低気圧では周囲から空気が集まり、上昇しやすい。","低気圧→上昇気流→雲・雨につながりやすい。","standard");
-add("理科",3,"生物の成長と遺伝","遺伝子の情報を含む細胞内の構造は？","核 / 細胞壁だけ / 液胞だけ / 気孔",0,"遺伝情報は主に核内の染色体に存在する。","遺伝→染色体→DNAのつながり。","standard");
-// 社会
-add("社会",1,"古代日本","租・調・庸のうち、主に米を納めるものは？","租 / 調 / 庸 / 雑徭",0,"租は田から収穫した米を納める税。","租＝米、調＝特産物、庸＝労役の代わりの布など。","standard");
-add("社会",1,"古代中国・東アジア","隋の次に中国を統一した王朝は？","漢 / 唐 / 宋 / 元",1,"隋の次は唐。","『ズイっと進んでトウっと到着！』。","basic");
-add("社会",2,"中世日本","馬借の主な仕事は？","運送 / 金融 / 漁業 / 製鉄",0,"馬借は馬を使った運送業者。","馬＝運ぶ、と結びつける。","standard");
-add("社会",2,"中世日本","土倉は何を営んでいた？","酒造だけ / 金融・質屋 / 漁業 / 農業",1,"土倉は金融業を営み、質物を預かった。","土倉＝中世の金融業者。","standard");
-add("社会",2,"中世日本","一向一揆の中心となった人々は？","浄土真宗の信者 / 武士だけ / 公家だけ / 外国人",0,"浄土真宗（一向宗）の信者を中心とする一揆。","一向＝浄土真宗とセット。","entrance");
-add("社会",3,"近世日本","島原・天草一揆の背景として正しいものは？","重い年貢やキリシタン弾圧など / 鎌倉幕府成立 / 黒船来航 / 廃藩置県",0,"重い年貢やキリシタンへの弾圧などに対する反発が背景。","江戸初期・九州・キリシタンをセットで整理。","entrance");
-add("社会",3,"近代日本","明治政府が藩を廃止して府県を置いた改革は？","版籍奉還 / 廃藩置県 / 大政奉還 / 地租改正",1,"1871年の廃藩置県。","藩→県に変え、中央集権化を進めた。","basic");
-add("社会",3,"政治","日本国憲法の三大原則に含まれるものは？","基本的人権の尊重 / 身分制度 / 武家政治 / 鎖国",0,"国民主権、基本的人権の尊重、平和主義。","三大原則をまとめて暗記。","standard");
-// 国語
-add("国語",1,"漢字・語句","『努力をつづける』の『つづける』の漢字は？","続ける / 継ける / 接ける / 付ける",0,"継続する意味の『続ける』。","同じ動作を継続→続ける。","basic");
-add("国語",1,"文法","『静かな町』の『静かな』は何の品詞？","名詞 / 形容詞 / 形容動詞 / 副詞",2,"『静かだ』の活用語なので形容動詞。","『だ・な』などの活用を手がかりにする。","standard");
-add("国語",2,"敬語","『先生が来る』を尊敬語にすると？","先生がお越しになる / 先生が来ました / 先生が来ない / 先生を呼ぶ",0,"相手側の動作を高めるので尊敬語。","誰の動作を高めているか確認。","standard");
-add("国語",2,"古文","古文で『いと』の意味として代表的なのは？","とても / 少し / すぐに / なぜ",0,"『いと』は『とても・たいそう』。","古文単語は頻出語をセットで。","basic");
-add("国語",3,"文学的文章","物語で、登場人物の気持ちを問われたら最も重視するものは？","本文中の根拠 / 自分の経験だけ / 題名だけ / 挿絵だけ",0,"読解は本文の言動・表現などの根拠から判断する。","気持ち→直前直後の行動・会話・表現を探す。","entrance");
-add("国語",3,"説明的文章","筆者の主張を探すときに注目しやすい表現は？","つまり・このように / たまたま / おそらく全部 / 名前だけ",0,"まとめや結論を示す表現は主張の手がかりになりやすい。","『つまり』『したがって』『重要なのは』に注目。","standard");
-add("国語",3,"作文・記述","記述問題で最も大切なことは？","本文や資料を根拠に答える / 長く書く / 難しい言葉だけ使う / 感想だけを書く",0,"根拠を示し、問われたことに対応して答える。","『聞かれたことに答える＋根拠』。","entrance");
 
-function saveName(){let n=$("username").value.trim();if(!n){alert("ユーザーネームを入力してね");return}state.name=n;localStorage.setItem("jukenName",n);show("mode")}
-function show(id){document.querySelectorAll(".screen").forEach(s=>s.classList.remove("active"));$(id).classList.add("active");window.scrollTo(0,0)}
-function openSolo(){show("solo");renderSubjects()}
-function openBattle(){show("battle");$("roomPanel").classList.add("hidden");$("roomPanel").innerHTML=""}
+/* ---------- 英語 ---------- */
+add("英語",1,"be動詞・一般動詞","She ( ) a student.","is / are / am / do",0,
+ "She は三人称単数なので be動詞は is。","I→am、you/we/they→are、he/she/it→is。","basic");
+add("英語",1,"疑問文・否定文","（　）you play tennis?","Do / Is / Are / Does",0,
+ "play は一般動詞なので Do を使う。","一般動詞の疑問文は Do/Does。be動詞なら Is/Are。","standard");
+add("英語",1,"現在形","He ( ) soccer every Sunday.","play / plays / playing / played",1,
+ "He は三人称単数なので一般動詞 play に s がついて plays。","he/she/it＋現在形→基本的に動詞にs。","standard");
+add("英語",1,"疑問詞","( ) do you live?","Where / Why / Who / When",0,
+ "liveする場所を尋ねているので Where。","場所→Where、理由→Why、人→Who、時→When。","basic");
+add("英語",1,"過去形","I ( ) soccer yesterday.","play / plays / played / playing",2,
+ "yesterday があるので過去形 played。","yesterday、last～、～agoは過去形のサイン。","basic");
+add("英語",1,"助動詞","You ( ) swim very well.","can / are / does / is",0,
+ "能力を表すので can。","can＋動詞の原形。can swimsにはしない。","basic");
+add("英語",2,"不定詞","I want ( ) a new camera.","buy / to buy / buying / bought",1,
+ "want の後ろは to＋動詞の原形で『～したい』。","want to＋動詞の原形。","standard");
+add("英語",2,"動名詞","I enjoy ( ) books.","read / to read / reading / reads",2,
+ "enjoy の後ろは動名詞 reading。","enjoy＋～ingをセットで覚える。","standard");
+add("英語",2,"比較","Mt. Fuji is ( ) than this mountain.","high / higher / highest / more high",1,
+ "2つを比べる比較級なので higher。","短い形容詞→er、thanとセット。","standard");
+add("英語",2,"接続詞","I stayed home ( ) it was raining.","because / where / who / what",0,
+ "理由を表すので because。","Because＝理由。","basic");
+add("英語",3,"助動詞","Mike and I ( ) able to take that train.","are / is / am / does",0,
+ "Mike and I は2人なので複数。are able to となる。","A and B は基本的に複数扱い。","standard");
+add("英語",3,"過去形","Before I ( ), I always imagined the next day.","slept / sleep / sleeping / am sleeping",0,
+ "過去の出来事を語る文脈なので slept。","文全体の時間軸を確認して時制を決める。","entrance");
+add("英語",3,"疑問文・否定文","Because I was tired, I went home. What question word asks for the reason?","Why / Where / Who / When",0,
+ "Because～は理由を答えているので Why。","Because＝理由→Why。","standard");
+add("英語",3,"疑問文・否定文","We played soccer in the park. Which question word asks for the place?","Why / Where / Who / What",1,
+ "in the park は場所なので Where。","場所→Where。","basic");
+add("英語",3,"現在完了","I have ( ) this book three times.","read / reads / reading / to read",0,
+ "haveの後ろは過去分詞。readは原形と過去分詞のつづりが同じ。","have＋過去分詞。経験・完了・継続を表す。","entrance");
+add("英語",3,"受動態","This picture was ( ) by Ken.","take / took / taken / taking",2,
+ "受動態は be動詞＋過去分詞。takeの過去分詞は taken。","be＋過去分詞＝～される。","entrance");
+add("英語",3,"関係代名詞","I know a boy ( ) speaks English well.","who / where / when / what",0,
+ "先行詞が人で、後ろが主語の働きをするので who。","人→who、物→which、所有→whoseなど。","entrance");
+add("英語",3,"語順","「私は昨日、図書館で英語を勉強しました。」に合う英文は？","I studied English at the library yesterday. / I English studied yesterday library. / Yesterday English I studied library. / I studied yesterday the English at library.",0,
+ "英語の基本は主語→動詞→目的語。その後に場所・時などを置く。","『だれ・どう・なに・どこ・いつ』で整理。","entrance");
+add("英語",3,"長文読解","本文の答えが Because I was tired. なら、質問はどれ？","Why did you go home? / Where did you go? / Who went home? / When did you go?",0,
+ "Becauseは理由を答えるのでWhy。","答えの先頭語から疑問詞を逆算する。","entrance");
+
+/* ---------- 数学 ---------- */
+add("数学",1,"正の数・負の数","(-3)+8 = ?","3 / 5 / -5 / 11",1,
+ "異符号の加法は絶対値の差。8-3=5で、絶対値が大きい8の符号が＋。","異符号→引き算、絶対値が大きい方の符号。","basic");
+add("数学",1,"文字式","x=3 のとき 2x+5 は？","8 / 10 / 11 / 13",2,
+ "2×3+5=11。","文字に数を代入したら、まず掛け算。","basic");
+add("数学",1,"一次方程式","2x+3=11 の x は？","3 / 4 / 5 / 7",1,
+ "3を移項して2x=8、よってx=4。","移項するときは符号が変わる。","standard");
+add("数学",1,"比例・反比例","y=3x のとき x=4 なら y は？","7 / 12 / 1 / 4",1,
+ "3×4=12。","比例は y=ax の形。","basic");
+add("数学",1,"平面図形","三角形の内角の和は？","90° / 180° / 270° / 360°",1,
+ "三角形の内角の和は180°。","三角形→180°、四角形→360°。","basic");
+add("数学",1,"空間図形","立方体の面の数は？","4 / 6 / 8 / 12",1,
+ "立方体は6つの正方形の面をもつ。","頂点8、辺12、面6。","basic");
+add("数学",2,"式の計算","3x+2x は？","5 / 5x / 6x / x²",1,
+ "同類項なので係数を足して5x。","文字部分が同じ項だけまとめられる。","basic");
+add("数学",2,"連立方程式","x+y=7、x-y=1 の x は？","2 / 3 / 4 / 5",2,
+ "2式を足すと2x=8なのでx=4。","加減法は同類の文字を消す。","standard");
+add("数学",2,"一次関数","y=2x+1 で x=3 のとき y は？","5 / 6 / 7 / 8",2,
+ "2×3+1=7。","y=ax+b に代入。","basic");
+add("数学",2,"確率","袋に赤2個、青3個。1個取り出すとき赤の確率は？","1/5 / 2/5 / 3/5 / 1/2",1,
+ "全5個のうち赤2個なので2/5。","確率＝起こる場合の数÷すべての場合の数。","standard");
+add("数学",2,"図形の性質","二等辺三角形で等しい辺に対する角は？","等しい / 必ず90° / 必ず30° / 必ず60°",0,
+ "二等辺三角形では底角が等しい。","『二等辺→底角が等しい』。","standard");
+add("数学",3,"多項式・因数分解","x²+5x+6 を因数分解すると？","(x+1)(x+6) / (x+2)(x+3) / (x-2)(x-3) / (x+5)(x+1)",1,
+ "積が6、和が5になる2と3を使う。","x²+bx+cは積c・和bになる2数を探す。","entrance");
+add("数学",3,"平方根","√49 = ?","6 / 7 / 8 / 14",1,
+ "7×7=49なので√49=7。","√aは『2乗するとaになる正の数』。","basic");
+add("数学",3,"平方根","√12 を簡単にすると？","2√3 / 3√2 / 4√3 / 6√2",0,
+ "√12=√(4×3)=2√3。","平方数を外に出す。","entrance");
+add("数学",3,"二次方程式","x²-5x+6=0 の解は？","1,6 / 2,3 / -2,-3 / 3,5",1,
+ "(x-2)(x-3)=0なのでx=2,3。","積と和から因数分解。","entrance");
+add("数学",3,"関数 y=ax²","y=ax² で x=2、y=12 のとき a は？","2 / 3 / 4 / 6",1,
+ "12=4aなのでa=3。","分かっているx,yを代入。","entrance");
+add("数学",3,"相似","相似な図形で対応する辺の比が2:3なら、4cmに対応する辺は？","5cm / 6cm / 7cm / 8cm",1,
+ "4:x=2:3よりx=6。","対応する順番をそろえて比例式。","standard");
+add("数学",3,"円","円周角は同じ弧に対する中心角の何分の1？","1/2 / 1/3 / 2倍 / 4倍",0,
+ "円周角は同じ弧に対する中心角の半分。","中心角と円周角の関係は頻出。","standard");
+add("数学",3,"三平方の定理","直角三角形の2辺が3cm、4cm。斜辺は？","5cm / 6cm / 7cm / 8cm",0,
+ "3²+4²=25、√25=5。","斜辺²＝他の2辺²の和。","entrance");
+add("数学",3,"標本調査","母集団の一部を取り出して調べる方法は？","標本調査 / 全数調査 / 実験だけ / 因数分解",0,
+ "母集団から一部を標本として取り出して調べるのが標本調査。","全部を調べる→全数調査。一部→標本調査。","standard");
+
+/* ---------- 理科 ---------- */
+add("理科",1,"物質とその性質","質量パーセント濃度の分母は何？","水の質量 / 溶質の質量 / 溶液の質量 / 容器の質量",2,
+ "濃度＝溶質÷溶液×100。溶液は水＋溶質。","分母は『全部』＝溶液。","standard");
+add("理科",1,"光・音・力","光が鏡に当たるとき、入射角と反射角の関係は？","入射角の2倍 / 等しい / 常に90° / 反射角が0°",1,
+ "反射の法則では入射角＝反射角。","角度は法線から測る。","basic");
+add("理科",1,"密度","密度を求める式は？","質量×体積 / 質量÷体積 / 体積÷質量 / 質量＋体積",1,
+ "密度＝質量÷体積。","『みつど＝しつりょう÷たいせき』。","basic");
+add("理科",2,"化学変化","銅と酸素が化合するとき、銅:酸素の質量比は？","4:1 / 1:4 / 2:1 / 3:2",0,
+ "銅4に対して酸素1。","『どう・さん・し・いち』で4:1。","entrance");
+add("理科",2,"化学変化","マグネシウムと酸素の質量比は？","3:2 / 2:3 / 1:2 / 4:1",0,
+ "マグネシウム3、酸素2。","『ま・さ・み・じ』で3:2。","entrance");
+add("理科",2,"電流","電圧=6V、抵抗=3Ωのとき電流は？","1A / 2A / 3A / 18A",1,
+ "I=V/Rより2A。","V=RI、I=V/R、R=V/I。","standard");
+add("理科",2,"磁界","電流が流れる導線のまわりにできるものは？","磁界 / 重力だけ / 真空だけ / 光だけ",0,
+ "電流が流れる導線の周囲には磁界ができる。","電流→磁界。","standard");
+add("理科",3,"化学変化と電池","電池では化学エネルギーが主に何に変換される？","電気エネルギー / 音だけ / 光だけ / 熱だけ",0,
+ "電池は化学エネルギーを電気エネルギーに変換する。","電池＝化学→電気。","standard");
+add("理科",3,"酸・アルカリとイオン","酸性の水溶液に共通して存在するイオンは？","水素イオン / 水酸化物イオンだけ / ナトリウムイオンだけ / 銅イオンだけ",0,
+ "酸性の水溶液では水素イオンが生じる。","酸性→H⁺、アルカリ性→OH⁻。","entrance");
+add("理科",3,"天気・気象","低気圧では一般に空気はどう動く？","下降する / 上昇する / 動かない / 必ず西へ",1,
+ "低気圧では空気が集まり上昇しやすい。","低気圧→上昇気流→雲・雨。","standard");
+add("理科",3,"生物の成長と遺伝","遺伝情報を含む構造がある細胞小器官は？","核 / 細胞壁だけ / 液胞だけ / 気孔",0,
+ "遺伝情報は主に核内の染色体に存在する。","遺伝→染色体→DNA。","standard");
+add("理科",3,"運動とエネルギー","仕事の大きさを表す基本式は？","力×力 / 力×距離 / 距離÷力 / 質量×時間",1,
+ "仕事＝力×力の向きに動いた距離。","仕事→力×距離。","entrance");
+add("理科",3,"化学変化と電池","炭酸水素ナトリウムを加熱するとき、試験管の口を少し下げる主な理由は？","酸素を集めるため / 水滴が加熱部へ戻るのを防ぐため / 温度を下げるため / 音を小さくするため",1,
+ "発生した水が冷えて加熱部へ戻ると試験管が割れる危険があるため。","加熱実験→水の逆流防止。","entrance");
+
+/* ---------- 社会 ---------- */
+add("社会",1,"古代日本","租・調・庸のうち、主に米を納めるものは？","租 / 調 / 庸 / 雑徭",0,
+ "租は田から収穫した米を納める税。","租＝米、調＝特産物、庸＝労役の代わりの布など。","standard");
+add("社会",1,"古代中国・東アジア","隋の次に中国を統一した王朝は？","漢 / 唐 / 宋 / 元",1,
+ "隋の次は唐。","『ズイっと進んでトウっと到着！』。","basic");
+add("社会",1,"古代日本","聖徳太子が定めたとされる、役人の心構えを示したものは？","十七条の憲法 / 大日本帝国憲法 / 日本国憲法 / 武家諸法度",0,
+ "603年に定めたとされる十七条の憲法。","聖徳太子→十七条の憲法。","standard");
+add("社会",2,"中世日本","馬借の主な仕事は？","運送 / 金融 / 漁業 / 製鉄",0,
+ "馬借は馬を使った運送業者。","馬＝運ぶ。","standard");
+add("社会",2,"中世日本","土倉は何を営んでいた？","酒造だけ / 金融・質屋 / 漁業 / 農業",1,
+ "土倉は金融業を営み、質物を預かった。","土倉＝中世の金融業者。","standard");
+add("社会",2,"中世日本","一向一揆の中心となった人々は？","浄土真宗の信者 / 武士だけ / 公家だけ / 外国人",0,
+ "浄土真宗（一向宗）の信者を中心とする一揆。","一向＝浄土真宗。","entrance");
+add("社会",2,"中世日本","惣とは何を指す？","農民による自治的な村 / 武士の軍団 / 商人の船団 / 朝廷の役所",0,
+ "惣は中世の農民たちによる自治的な村のまとまり。","惣＝村の自治。","standard");
+add("社会",3,"近世日本","島原・天草一揆の背景として正しいものは？","重い年貢やキリシタン弾圧など / 鎌倉幕府成立 / 黒船来航 / 廃藩置県",0,
+ "重い年貢やキリシタンへの弾圧などへの反発が背景。","江戸初期・九州・キリシタン。","entrance");
+add("社会",3,"近代日本","明治政府が藩を廃止して府県を置いた改革は？","版籍奉還 / 廃藩置県 / 大政奉還 / 地租改正",1,
+ "1871年の廃藩置県。","藩→県、中央集権化。","basic");
+add("社会",3,"政治","日本国憲法の三大原則に含まれるものは？","基本的人権の尊重 / 身分制度 / 武家政治 / 鎖国",0,
+ "国民主権、基本的人権の尊重、平和主義。","三大原則をまとめて覚える。","standard");
+add("社会",3,"政治","日本の三権分立で法律をつくる機関は？","国会 / 内閣 / 裁判所 / 都道府県",0,
+ "国会は立法を担当する。","立法＝国会、行政＝内閣、司法＝裁判所。","entrance");
+add("社会",3,"政治","衆議院議員の任期は原則何年？","2年 / 4年 / 6年 / 8年",1,
+ "衆議院の任期は4年。ただし解散がある。","衆4、参6と覚える。","entrance");
+add("社会",3,"経済","需要が増えて供給が同じなら、一般に価格はどうなりやすい？","上がる / 下がる / 必ず0円 / 変化しない",0,
+ "買いたい人が増えると価格は上がる方向に働く。","需要↑→価格↑、供給↑→価格↓の方向。","standard");
+
+/* ---------- 国語 ---------- */
+add("国語",1,"漢字・語句","『努力をつづける』の『つづける』の漢字は？","続ける / 継ける / 接ける / 付ける",0,
+ "継続する意味の『続ける』。","同じ動作を継続→続ける。","basic");
+add("国語",1,"文法","『静かな町』の『静かな』は何の品詞？","名詞 / 形容詞 / 形容動詞 / 副詞",2,
+ "『静かだ』の活用語なので形容動詞。","『だ・な』などの活用を手がかりにする。","standard");
+add("国語",1,"説明的文章","説明文で筆者の考えを探すときに注目しやすい表現は？","つまり・したがって / たまたま / 名前だけ / 数字だけ",0,
+ "まとめや結論を示す表現は主張の手がかりになりやすい。","つまり・したがって・要するにに注目。","standard");
+add("国語",2,"敬語","『先生が来る』を尊敬語にすると？","先生がお越しになる / 先生が来ました / 先生が来ない / 先生を呼ぶ",0,
+ "相手側の動作を高めるので尊敬語。","誰の動作を高めるか確認。","standard");
+add("国語",2,"古文","古文で『いと』の意味として代表的なのは？","とても / 少し / すぐに / なぜ",0,
+ "『いと』は『とても・たいそう』。","頻出古文単語。","basic");
+add("国語",2,"漢文","漢文を読むとき、返り点の役割は？","読む順番を示す / 音量を示す / 作者を示す / 時代を示す",0,
+ "返り点は漢文を日本語の語順に近づけて読むための目印。","レ点・一二点などで読む順番を確認。","standard");
+add("国語",3,"文学的文章","物語で登場人物の気持ちを問われたら最も重視するものは？","本文中の根拠 / 自分の経験だけ / 題名だけ / 挿絵だけ",0,
+ "読解は本文の言動・会話・表現などの根拠から判断する。","気持ち→直前直後の言動を探す。","entrance");
+add("国語",3,"説明的文章","筆者の主張を探すときに注目しやすい表現は？","つまり・このように / たまたま / おそらく全部 / 名前だけ",0,
+ "まとめや結論を示す表現は主張の手がかり。","『つまり』『したがって』に注目。","standard");
+add("国語",3,"作文・記述","記述問題で最も大切なことは？","本文や資料を根拠に答える / 長く書く / 難しい言葉だけ使う / 感想だけを書く",0,
+ "根拠を示し、問われたことに対応して答える。","『質問に答える＋根拠』。","entrance");
+add("国語",3,"敬語","自分の行為をへりくだって表す敬語は？","尊敬語 / 謙譲語 / 丁寧語 / 普通語",1,
+ "謙譲語は自分側の行為を低めて相手を立てる。","相手を高める→尊敬、自分を低める→謙譲。","standard");
+add("国語",3,"入試読解","選択肢問題で最も危険な解き方は？","本文の根拠を確認せず雰囲気で選ぶ / 根拠に線を引く / 設問と本文を対応させる / 消去法を使う",0,
+ "読解は本文の根拠があるか確認して選ぶ。","『それ本文のどこ？』を必ず確認。","entrance");
+
+/* =========================================================
+   画面・選択UI
+========================================================= */
+
+function show(id){
+  document.querySelectorAll(".screen").forEach(s=>s.classList.remove("active"));
+  $(id).classList.add("active");
+  window.scrollTo({top:0,behavior:"smooth"});
+}
+
+function saveName(){
+  const name=$("username").value.trim();
+  if(!name){alert("ユーザーネームを入力してね");return;}
+  state.name=name;
+  localStorage.setItem("jukenName",name);
+  $("headerUser").textContent=name;
+  show("mode");
+}
+
+function openSolo(){
+  show("solo");
+  renderSolo();
+}
+function openBattle(){
+  show("battle");
+  $("roomPanel").classList.add("hidden");
+  $("roomPanel").innerHTML="";
+}
+function openToday(){show("today")}
+function openWeak(){show("weak");renderWeakSummary()}
+
+function renderSolo(){
+  renderSteps();
+  renderGrades();
+  renderSubjects();
+  renderUnits();
+  renderSets();
+  renderTypes();
+  renderCounts();
+  renderDifficulties();
+  renderSelectionSummary();
+}
+
+function renderSteps(){
+  $("steps").innerHTML=[
+    ["1","学年"],["2","教科"],["3","単元"],["4","セット"],
+    ["5","形式"],["6","問題数"],["7","難易度"]
+  ].map((x,i)=>`<span class="${i===0?"active":""}">${x[0]}. ${x[1]}</span>`).join("");
+}
+
+function renderGrades(){
+  $("gradeChoices").innerHTML=[1,2,3].map(g=>
+    `<button class="chip ${state.grade===String(g)?"selected":""}" onclick="selectGrade('${g}')">中学${g}年</button>`
+  ).join("");
+}
+function selectGrade(g){
+  state.grade=String(g);
+  state.unit="すべて";
+  renderSolo();
+}
 function renderSubjects(){
- state.grade=$("grade").value;
- $("subjectArea").innerHTML='<div class="yearbox"><div class="year">教科</div><div class="grid grid3">'+Object.keys(subjects).map(s=>`<button class="option" onclick="pickSubject('${s}')"><b>${s}</b><small>中学${state.grade}年</small></button>`).join("")+'</div></div>';
- $("unitArea").innerHTML="";renderSetTypeCount();
+  $("subjectChoices").innerHTML=Object.keys(SUBJECTS).map(s=>
+    `<button class="option subject-card" onclick="selectSubject('${s}')">
+      <div class="icon">${subjectIcon(s)}</div><b>${s}</b>
+      <small>中学${state.grade}年の単元から選択</small>
+    </button>`
+  ).join("");
 }
-function pickSubject(s){state.subject=s;renderUnits()}
+function subjectIcon(s){
+  return ({英語:"A",数学:"∑",国語:"文",理科:"⚗",社会:"地"})[s]||"📘";
+}
+function selectSubject(s){
+  state.subject=s;state.unit="すべて";renderSolo();
+}
 function renderUnits(){
- const units=subjects[state.subject]||[];
- $("unitArea").innerHTML=`<div class="yearbox"><div class="year">${state.subject}・単元</div><div class="chips"><button class="chip selected" onclick="pickUnit('すべて')">全単元</button>${units.map(u=>`<button class="chip" onclick="pickUnit(${JSON.stringify(u)})">${u}</button>`).join("")}</div></div>`;
- renderSetTypeCount();
+  const units=SUBJECTS[state.subject]?.[state.grade]||[];
+  $("unitChoices").innerHTML=`
+    <div class="unit-grid">
+      <button class="unit ${state.unit==="すべて"?"selected":""}" onclick="selectUnit('すべて')">全単元</button>
+      ${units.map(u=>`<button class="unit ${state.unit===u?"selected":""}" onclick="selectUnit(${JSON.stringify(u)})">${u}</button>`).join("")}
+    </div>`;
 }
-function pickUnit(u){state.unit=u;document.querySelectorAll("#unitArea .chip").forEach(x=>x.classList.remove("selected"));event.target.classList.add("selected");renderSetTypeCount()}
-function renderSetTypeCount(){
- $("setArea").innerHTML=`<div class="yearbox"><div class="year">問題セット</div><div class="chips">
-<button class="chip ${state.set==="単元別"?"selected":""}" onclick="pickSet('単元別')">単元別</button>
-<button class="chip ${state.set==="8月号"?"selected":""}" onclick="pickSet('8月号')">8月号</button>
-<button class="chip ${state.set==="9月号"?"selected":""}" onclick="pickSet('9月号')">9月号</button></div></div>`;
- $("typeArea").innerHTML=`<div class="yearbox"><div class="year">問題形式</div><div class="chips">
-<button class="chip ${state.type==="choice"?"selected":""}" onclick="pickType('choice')">選択問題</button>
-<button class="chip ${state.type==="input"?"selected":""}" onclick="pickType('input')">自分で入力</button>
-<button class="chip ${state.type==="mix"?"selected":""}" onclick="pickType('mix')">おまかせ</button></div></div>`;
- $("countArea").innerHTML=`<div class="yearbox"><div class="year">問題数</div><div class="chips">${[10,20,30,50,100].map(n=>`<button class="chip ${state.count===n?"selected":""}" onclick="pickCount(${n})">${n}問</button>`).join("")}</div></div>`;
- $("difficultyArea").innerHTML=`<div class="yearbox"><div class="year">難易度</div><div class="chips">${[["all","おまかせ"],["basic","基礎"],["standard","標準"],["entrance","入試レベル"]].map(a=>`<button class="chip ${state.diff===a[0]?"selected":""}" onclick="pickDiff('${a[0]}')">${a[1]}</button>`).join("")}</div></div>`;
-}
-function pickSet(x){state.set=x;renderSetTypeCount()}
-function pickType(x){state.type=x;renderSetTypeCount()}
-function pickCount(x){state.count=x;renderSetTypeCount()}
-function pickDiff(x){state.diff=x;renderSetTypeCount()}
+function selectUnit(u){state.unit=u;renderUnits();renderSelectionSummary();renderSets()}
 
-function filtered(){
- let a=bank.filter(q=>q.grade===state.grade);
- if(state.subject)a=a.filter(q=>q.subject===state.subject);
- if(state.set==="8月号"||state.set==="9月号") a=a.filter(q=>q.set===state.set);
- else if(state.unit!=="すべて") a=a.filter(q=>q.unit===state.unit);
- if(state.diff!=="all")a=a.filter(q=>q.diff===state.diff);
- return a;
+function renderSets(){
+  $("setChoices").innerHTML=["単元別","8月号","9月号"].map(x=>
+    `<button class="chip ${state.set===x?"selected":""}" onclick="selectSet('${x}')">${x}</button>`
+  ).join("");
 }
-function shuffle(a){return [...a].sort(()=>Math.random()-.5)}
+function selectSet(x){state.set=x;renderSets();renderSelectionSummary();renderSetNotice()}
+
+function renderTypes(){
+  $("typeChoices").innerHTML=[
+    ["choice","選択問題","4択中心"],
+    ["input","自分で入力","答えをキーボード入力"],
+    ["mix","おまかせ","選択・入力を混ぜる"]
+  ].map(x=>`<button class="chip ${state.type===x[0]?"selected":""}" onclick="selectType('${x[0]}')"><b>${x[1]}</b> ${x[2]}</button>`).join("");
+}
+function selectType(x){state.type=x;renderTypes();renderSelectionSummary()}
+
+function renderCounts(){
+  $("countChoices").innerHTML=[10,20,30,50,100].map(n=>
+    `<button class="chip ${state.count===n?"selected":""}" onclick="selectCount(${n})">${n}問</button>`
+  ).join("");
+}
+function selectCount(n){state.count=n;renderCounts();renderSelectionSummary()}
+
+function renderDifficulties(){
+  const arr=[["all","おまかせ"],["basic","基礎"],["standard","標準"],["entrance","入試レベル"]];
+  $("difficultyChoices").innerHTML=arr.map(x=>
+    `<button class="chip ${state.difficulty===x[0]?"selected":""}" onclick="selectDifficulty('${x[0]}')">${x[1]}</button>`
+  ).join("");
+}
+function selectDifficulty(x){state.difficulty=x;renderDifficulties();renderSelectionSummary()}
+
+function renderSelectionSummary(){
+  $("selectionSummary").innerHTML=[
+    ["学年",`中学${state.grade}年`],
+    ["教科",state.subject],
+    ["単元",state.unit==="すべて"?"全単元":state.unit],
+    ["セット",state.set],
+    ["形式",typeName(state.type)],
+    ["問題数",`${state.count}問`],
+    ["難易度",difficultyName(state.difficulty)]
+  ].map(x=>`<div class="mini"><span>${x[0]}</span><b>${x[1]}</b></div>`).join("");
+  renderSetNotice();
+}
+function renderSetNotice(){
+  let text="";
+  if(state.set==="8月号")text="8月号は、現在このHTMLに登録されている8月号問題データから出題するセット。";
+  if(state.set==="9月号")text="9月号は、現在このHTMLに登録されている9月号問題データから出題するセット。";
+  if(state.set==="単元別")text="単元別では、選んだ学年・教科・単元・難易度に合う問題から出題。";
+  $("selectionNotice").innerHTML=`<div class="notice">${text}</div>`;
+}
+function typeName(x){return {choice:"選択問題",input:"自分で入力",mix:"おまかせ"}[x]}
+function difficultyName(x){return {all:"おまかせ",basic:"基礎",standard:"標準",entrance:"入試レベル"}[x]}
+
+/* =========================================================
+   問題選択・採点
+========================================================= */
+
+function shuffle(arr){
+  const a=[...arr];
+  for(let i=a.length-1;i>0;i--){
+    const j=Math.floor(Math.random()*(i+1));
+    [a[i],a[j]]=[a[j],a[i]];
+  }
+  return a;
+}
+
+function filteredPool(){
+  let pool=BANK.filter(q=>q.grade===String(state.grade));
+  pool=pool.filter(q=>q.subject===state.subject);
+
+  if(state.set==="8月号" || state.set==="9月号"){
+    pool=pool.filter(q=>q.set===state.set);
+  }else if(state.unit!=="すべて"){
+    pool=pool.filter(q=>q.unit===state.unit);
+  }
+
+  if(state.difficulty!=="all"){
+    pool=pool.filter(q=>q.difficulty===state.difficulty);
+  }
+  return pool;
+}
+
 function startSolo(){
- let pool=filtered();
- if(!pool.length){alert("この条件の問題がまだ登録されていません。別の単元・難易度・問題セットを選んでね。");return}
- let n=Math.min(state.count,pool.length);
- state.questions=shuffle(pool).slice(0,n);state.index=0;state.score=0;state.wrong=[];state.mode="solo";state.start=Date.now();state.answered=false;lastConfig={...state};
- show("quiz");renderQuestion();startTimer();
+  const pool=filteredPool();
+  if(!pool.length){
+    alert("この条件の問題がまだ登録されていません。『おまかせ』や別の単元・難易度を選んでね。");
+    return;
+  }
+  const count=Math.min(state.count,pool.length);
+  state.questions=shuffle(pool).slice(0,count);
+  state.mode="solo";
+  state.index=0;state.score=0;state.wrong=[];state.lastWrong=[];
+  state.startTime=Date.now();state.elapsed=0;state.answered=false;
+  state.lastConfig={
+    subject:state.subject,grade:state.grade,unit:state.unit,set:state.set,
+    type:state.type,count:count,difficulty:state.difficulty
+  };
+  show("quiz");
+  startQuizTimer();
+  renderQuestion();
 }
-function renderQuestion(){
- const q=state.questions[state.index];state.answered=false;
- $("quizMode").textContent=`${state.subject} / ${state.unit==="すべて"?"全単元":state.unit}`;
- $("qnum").textContent=`${state.index+1} / ${state.questions.length}問`;
- $("qsource").textContent=q.set==="単元別"?"単元別":q.set;
- $("bar").style.width=((state.index)/state.questions.length*100)+"%";
- $("question").textContent=q.q;$("feedback").className="feedback";$("next").classList.add("hidden");
- if(state.type==="input"){ $("answers").innerHTML=`<div class="field"><input id="answerInput" autocomplete="off" placeholder="答えを入力"></div><button class="btn" onclick="checkInput()">回答する</button>`}
- else {$("answers").innerHTML=shuffle(q.choices.split(" / ")).map(c=>`<button class="answer" onclick="checkChoice(this,${JSON.stringify(c)})">${c}</button>`).join("")}
-}
-function checkChoice(btn,text){
- if(state.answered)return;const q=state.questions[state.index];state.answered=true;
- const correct=q.choices.split(" / ")[q.ans];const ok=text===correct;if(ok)state.score++;
- document.querySelectorAll(".answer").forEach(b=>{b.classList.add("disabled");if(b.textContent===correct)b.classList.add("correct")});if(!ok)btn.classList.add("wrong");feedback(ok,q,correct)
-}
-function normalize(s){return String(s).trim().toLowerCase().replace(/[ 　]/g,"").replace(/＝/g,"=").replace(/−/g,"-").replace(/√/g,"sqrt")}
-function checkInput(){
- if(state.answered)return;const q=state.questions[state.index];const val=$("answerInput").value;if(!val.trim()){alert("答えを入力してね");return}
- state.answered=true;const correct=q.choices.split(" / ")[q.ans];const ok=normalize(val)===normalize(correct);if(ok)state.score++;feedback(ok,q,correct)
-}
-function feedback(ok,q,correct){
- if(!ok)state.wrong.push({q,correct,unit:q.unit,exp:q.exp});
- $("feedback").className="feedback show "+(ok?"good":"bad");$("feedbackTitle").textContent=ok?"正解！⭕️":"不正解！❌";
- $("explain").innerHTML=`<b>答え：</b>${correct}<br>${q.exp}`;$("tip").innerHTML=`<b>世界一わかりやすい裏ワザ解説：</b>${q.tip}`;
- $("next").classList.remove("hidden");$("bar").style.width=((state.index+1)/state.questions.length*100)+"%"
-}
-function nextQuestion(){if(!state.answered)return;if(state.index>=state.questions.length-1){finishQuiz();return}state.index++;renderQuestion()}
-function startTimer(){clearInterval(timerId);timerId=setInterval(()=>{state.elapsed=Date.now()-state.start;$("timer").textContent=fmt(state.elapsed)},200)}
-function fmt(ms){let s=Math.floor(ms/1000),m=Math.floor(s/60);s%=60;return String(m).padStart(2,"0")+":"+String(s).padStart(2,"0")}
-function finishQuiz(){clearInterval(timerId);state.elapsed=Date.now()-state.start;let pct=Math.round(state.score/state.questions.length*100);saveRank();
- $("resultTitle").textContent="おつかれさま！";$("resultScore").textContent=`${state.score} / ${state.questions.length}`;$("resultMsg").innerHTML=pct===100?"おめでとー！！！🎉":"ここから弱点をつぶしていこう！";
- $("stats").innerHTML=[["正解数",state.score],["正答率",pct+"%"],["時間",fmt(state.elapsed)],["ミス",state.questions.length-state.score]].map(x=>`<div class="stat"><small>${x[0]}</small><b>${x[1]}</b></div>`).join("");
- $("reviewList").innerHTML=state.wrong.length?state.wrong.map((w,i)=>`<div class="reviewrow"><b>${i+1}. ${w.q}</b><div class="ng">正解：${w.correct}</div><div>${w.exp}</div></div>`).join(""):"間違えた問題はありません。すごい！";
- show("result");
-}
-function saveRank(){
- let r=JSON.parse(localStorage.getItem("jukenRank")||"[]");
- r.push({name:state.name,subject:state.subject,unit:state.unit,score:state.score,total:state.questions.length,time:state.elapsed,date:new Date().toLocaleDateString("ja-JP")});
- r.sort((a,b)=>b.score-a.score||a.time-b.time);localStorage.setItem("jukenRank",JSON.stringify(r.slice(0,10)))
-}
-function renderRank(){
- show("ranking");let r=JSON.parse(localStorage.getItem("jukenRank")||"[]");
- $("rankTabs").innerHTML='<button class="chip selected">総合TOP10</button>';
- $("rankTable").innerHTML=r.length?`<table class="table"><tr><th>#</th><th>名前</th><th>教科</th><th>正解</th><th>時間</th></tr>${r.map((x,i)=>`<tr class="${x.name===state.name?"rankme":""}"><td>${i+1}</td><td>${x.name}</td><td>${x.subject}</td><td>${x.score}/${x.total}</td><td>${fmt(x.time)}</td></tr>`).join("")}</table>`:"まだランキングがありません。";
-}
-function retry(){state.questions=shuffle(lastConfig.questions||state.questions);state.index=0;state.score=0;state.wrong=[];state.start=Date.now();state.answered=false;show("quiz");renderQuestion();startTimer()}
 
-function randomCode(){return Math.random().toString(36).slice(2,8).toUpperCase()}
-function createRoom(){state.room=randomCode();showRoom(true)}
-function joinRoom(){let c=prompt("友達から教えてもらった6文字のルームコードを入力");if(!c)return;state.room=c.trim().toUpperCase();showRoom(false)}
+function prepareQuestions(pool,count){
+  return shuffle(pool).slice(0,Math.min(count,pool.length));
+}
+
+function renderQuestion(){
+  const q=state.questions[state.index];
+  state.answered=false;
+
+  $("quizTitle").textContent=`${q.subject} / ${q.unit}`;
+  $("quizSub").textContent=`中学${q.grade}年・${difficultyName(q.difficulty)}`;
+  $("questionNumber").textContent=`${state.index+1} / ${state.questions.length}問`;
+  $("sourceLabel").textContent=q.set;
+  $("progressBar").style.width=(state.index/state.questions.length*100)+"%";
+  $("questionText").textContent=q.q;
+  $("feedback").className="feedback hidden";
+  $("nextButton").classList.add("hidden");
+
+  let type=state.type;
+  if(type==="mix")type=Math.random()<.5?"choice":"input";
+
+  if(type==="input"){
+    $("answerArea").innerHTML=`
+      <div class="field">
+       <label for="answerInput">答えを入力</label>
+       <input id="answerInput" class="answer-input" autocomplete="off" placeholder="答えを入力してね"
+              onkeydown="if(event.key==='Enter')checkInput()">
+      </div>
+      <button class="btn" onclick="checkInput()">回答する</button>`;
+    setTimeout(()=>$("answerInput")?.focus(),50);
+  }else{
+    const choices=q.choices.split(" / ");
+    $("answerArea").innerHTML=`<div class="answer-grid">${
+      shuffle(choices).map(c=>
+        `<button class="answer" onclick="checkChoice(this,${JSON.stringify(c)})">${c}</button>`
+      ).join("")
+    }</div>`;
+  }
+}
+
+function normalizeAnswer(value){
+  return String(value)
+    .trim().toLowerCase()
+    .replace(/[ 　\t\r\n]/g,"")
+    .replace(/＝/g,"=")
+    .replace(/−/g,"-")
+    .replace(/＋/g,"+")
+    .replace(/×/g,"*")
+    .replace(/÷/g,"/")
+    .replace(/√/g,"sqrt");
+}
+
+function checkChoice(button,text){
+  if(state.answered)return;
+  const q=state.questions[state.index];
+  const correct=q.choices.split(" / ")[q.ans];
+  const ok=normalizeAnswer(text)===normalizeAnswer(correct);
+  finishAnswer(ok,q,correct,button);
+}
+
+function checkInput(){
+  if(state.answered)return;
+  const input=$("answerInput");
+  if(!input || !input.value.trim()){alert("答えを入力してね");return;}
+  const q=state.questions[state.index];
+  const correct=q.inputAnswer || q.choices.split(" / ")[q.ans];
+  const ok=normalizeAnswer(input.value)===normalizeAnswer(correct);
+  finishAnswer(ok,q,correct,null);
+}
+
+function finishAnswer(ok,q,correct,selectedButton){
+  state.answered=true;
+  if(ok)state.score++;
+  else{
+    state.wrong.push({
+      question:q.q,correct,unit:q.unit,subject:q.subject,
+      explain:q.explain,tip:q.tip,grade:q.grade
+    });
+  }
+
+  document.querySelectorAll(".answer").forEach(b=>{
+    b.classList.add("disabled");
+    if(normalizeAnswer(b.textContent)===normalizeAnswer(correct))b.classList.add("correct");
+  });
+  if(selectedButton && !ok)selectedButton.classList.add("wrong");
+
+  $("feedback").className=`feedback ${ok?"good":"bad"}`;
+  $("feedbackTitle").textContent=ok?"正解！⭕️":"不正解！❌";
+  $("explanation").innerHTML=`<b>答え：</b>${escapeHtml(correct)}<br>${escapeHtml(q.explain)}`;
+  $("tip").innerHTML=`<b>世界一わかりやすい裏ワザ解説：</b>${escapeHtml(q.tip)}`;
+  $("nextButton").classList.remove("hidden");
+  $("progressBar").style.width=((state.index+1)/state.questions.length*100)+"%";
+}
+
+function nextQuestion(){
+  if(!state.answered)return;
+  if(state.index>=state.questions.length-1){
+    finishQuiz();
+    return;
+  }
+  state.index++;
+  renderQuestion();
+}
+
+function startQuizTimer(){
+  clearInterval(timerId);
+  state.startTime=Date.now();
+  timerId=setInterval(()=>{
+    state.elapsed=Date.now()-state.startTime;
+    $("timer").textContent=formatTime(state.elapsed);
+  },200);
+}
+function stopQuizTimer(){
+  clearInterval(timerId);
+  state.elapsed=Date.now()-state.startTime;
+  $("timer").textContent=formatTime(state.elapsed);
+}
+function formatTime(ms){
+  let sec=Math.floor(ms/1000);
+  const min=Math.floor(sec/60);sec%=60;
+  return String(min).padStart(2,"0")+":"+String(sec).padStart(2,"0");
+}
+function escapeHtml(str){
+  return String(str).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+}
+
+/* =========================================================
+   結果・弱点
+========================================================= */
+
+function finishQuiz(){
+  stopQuizTimer();
+  saveMistakes(state.wrong);
+
+  const total=state.questions.length;
+  const pct=Math.round(state.score/total*100);
+  saveRankingEntry();
+
+  $("resultHeading").textContent=state.mode==="battle"?"対戦結果":"結果";
+  $("resultScore").textContent=`${state.score} / ${total}`;
+  $("resultMessage").textContent=
+    pct===100?"おめでとー！！！🎉":
+    pct>=80?"かなりいい！この調子で入試レベルへ！":
+    pct>=60?"いい感じ。間違えたところを復習すればもっと伸びる！":
+    "大丈夫。間違えた問題こそ、点数を伸ばすチャンス！";
+
+  $("resultStats").innerHTML=[
+    ["正解数",state.score],
+    ["正答率",pct+"%"],
+    ["時間",formatTime(state.elapsed)],
+    ["ミス",total-state.score],
+    ["問題数",total]
+  ].map(x=>`<div class="result-stat"><span>${x[0]}</span><b>${x[1]}</b></div>`).join("");
+
+  renderWeakAnalysis();
+  renderReview();
+  show("result");
+}
+
+function renderReview(){
+  if(!state.wrong.length){
+    $("reviewList").innerHTML=`<div class="empty">間違えた問題はありません。すごい！</div>`;
+    return;
+  }
+  $("reviewList").innerHTML=state.wrong.map((w,i)=>`
+    <div class="review-row">
+      <b>${i+1}. ${escapeHtml(w.question)}</b>
+      <div class="answer-bad">正解：${escapeHtml(w.correct)}</div>
+      <div>${escapeHtml(w.explain)}</div>
+      <div class="tip"><b>裏ワザ：</b>${escapeHtml(w.tip)}</div>
+    </div>
+  `).join("");
+}
+
+function renderWeakAnalysis(){
+  if(!state.wrong.length){$("weakAnalysis").innerHTML="";return;}
+  const counts={};
+  state.wrong.forEach(w=>{
+    const key=`${w.subject} / ${w.unit}`;
+    counts[key]=(counts[key]||0)+1;
+  });
+  const sorted=Object.entries(counts).sort((a,b)=>b[1]-a[1]);
+  $("weakAnalysis").innerHTML=`
+    <div class="section-title">今回の弱点分析</div>
+    <div class="weak-grid">
+      ${sorted.slice(0,6).map(x=>`
+        <div class="weak-card">
+          <b>${escapeHtml(x[0])}</b>
+          <span class="muted">${x[1]}問ミス</span>
+        </div>`).join("")}
+    </div>`;
+}
+
+function saveMistakes(wrong){
+  const old=JSON.parse(localStorage.getItem("jukenMistakes")||"[]");
+  wrong.forEach(w=>{
+    old.push({...w,date:new Date().toISOString()});
+  });
+  localStorage.setItem("jukenMistakes",JSON.stringify(old.slice(-300)));
+  state.lastWrong=[...wrong];
+}
+
+function getMistakes(){
+  return JSON.parse(localStorage.getItem("jukenMistakes")||"[]");
+}
+
+function renderWeakSummary(){
+  const list=getMistakes();
+  if(!list.length){
+    $("weakSummary").innerHTML=`<div class="empty">まだ間違い履歴がありません。まずクイズを解いてみよう。</div>`;
+    return;
+  }
+  const counts={};
+  list.forEach(w=>{
+    const k=`${w.subject} / ${w.unit}`;
+    counts[k]=(counts[k]||0)+1;
+  });
+  const sorted=Object.entries(counts).sort((a,b)=>b[1]-a[1]);
+  $("weakSummary").innerHTML=`
+    <div class="summary">
+      <div class="mini"><span>ミス履歴</span><b>${list.length}問</b></div>
+      <div class="mini"><span>弱点単元</span><b>${Object.keys(counts).length}</b></div>
+    </div>
+    <div class="section-title">苦手ランキング</div>
+    <div class="weak-grid">
+      ${sorted.slice(0,10).map(x=>`
+       <div class="weak-card"><b>${escapeHtml(x[0])}</b><span class="muted">${x[1]}回</span></div>
+      `).join("")}
+    </div>`;
+}
+
+function startWeak(){
+  const mistakes=getMistakes();
+  if(!mistakes.length){alert("まだ間違い履歴がないよ。先にクイズを解こう！");return;}
+  const unique=[];
+  const seen=new Set();
+  shuffle(mistakes).forEach(w=>{
+    const key=w.question+"|"+w.correct;
+    if(!seen.has(key)){seen.add(key);unique.push(w);}
+  });
+  state.questions=unique.slice(0,Math.min(20,unique.length)).map(w=>({
+    subject:w.subject,grade:w.grade||"3",unit:w.unit,q:w.question,
+    choices:w.correct+" / わからない / 別の答え / 未回答",
+    ans:0,inputAnswer:w.correct,explain:w.explain,tip:w.tip,
+    difficulty:"standard",set:"弱点克服"
+  }));
+  state.mode="weak";state.type="input";state.index=0;state.score=0;state.wrong=[];
+  show("quiz");startQuizTimer();renderQuestion();
+}
+function startWeakFromLast(){
+  if(!state.lastWrong.length){alert("今回のミスはありません！");return;}
+  state.questions=state.lastWrong.map(w=>({
+    subject:w.subject,grade:w.grade||"3",unit:w.unit,q:w.question,
+    choices:w.correct+" / わからない / 別の答え / 未回答",
+    ans:0,inputAnswer:w.correct,explain:w.explain,tip:w.tip,
+    difficulty:"standard",set:"今回の弱点"
+  }));
+  state.mode="weak";state.type="input";state.index=0;state.score=0;state.wrong=[];
+  show("quiz");startQuizTimer();renderQuestion();
+}
+function clearMistakes(){
+  if(confirm("間違い履歴を全部消す？")){localStorage.removeItem("jukenMistakes");renderWeakSummary();}
+}
+
+/* =========================================================
+   今日の10問
+========================================================= */
+
+function startToday(){
+  const pool=BANK.filter(q=>q.grade==="3");
+  state.questions=prepareQuestions(pool,10);
+  if(!state.questions.length){alert("問題データがありません");return;}
+  state.mode="today";state.type="mix";state.index=0;state.score=0;state.wrong=[];
+  state.startTime=Date.now();show("quiz");startQuizTimer();renderQuestion();
+}
+
+/* =========================================================
+   リトライ
+========================================================= */
+
+function retryQuiz(){
+  if(!state.lastConfig){
+    show("mode");return;
+  }
+  const cfg=state.lastConfig;
+  let pool=BANK.filter(q=>q.grade===String(cfg.grade)&&q.subject===cfg.subject);
+  if(cfg.set==="8月号"||cfg.set==="9月号")pool=pool.filter(q=>q.set===cfg.set);
+  else if(cfg.unit!=="すべて")pool=pool.filter(q=>q.unit===cfg.unit);
+  if(cfg.difficulty!=="all")pool=pool.filter(q=>q.difficulty===cfg.difficulty);
+  state.questions=prepareQuestions(pool,cfg.count);
+  state.mode="solo";state.type=cfg.type;state.index=0;state.score=0;state.wrong=[];
+  show("quiz");startQuizTimer();renderQuestion();
+}
+
+/* =========================================================
+   ランキング
+========================================================= */
+
+function saveRankingEntry(){
+  const old=JSON.parse(localStorage.getItem("jukenRanking")||"[]");
+  old.push({
+    name:state.name,
+    subject:state.subject,
+    unit:state.unit,
+    mode:state.mode,
+    score:state.score,
+    total:state.questions.length,
+    time:state.elapsed,
+    date:new Date().toLocaleDateString("ja-JP")
+  });
+  old.sort((a,b)=>b.score-a.score||a.time-b.time);
+  localStorage.setItem("jukenRanking",JSON.stringify(old.slice(0,100)));
+}
+
+function renderRanking(){
+  const ranking=JSON.parse(localStorage.getItem("jukenRanking")||"[]");
+  const subjects=["総合","英語","数学","国語","理科","社会"];
+  $("rankTabs").innerHTML=subjects.map(s=>
+    `<button class="chip ${s==="総合"?"selected":""}" onclick="renderRanking('${s}')">${s}</button>`
+  ).join("");
+  renderRankingTable(ranking,"総合");
+}
+
+function renderRanking(subject="総合"){
+  const ranking=JSON.parse(localStorage.getItem("jukenRanking")||"[]");
+  $("rankTabs").innerHTML=["総合","英語","数学","国語","理科","社会"].map(s=>
+    `<button class="chip ${subject===s?"selected":""}" onclick="renderRanking('${s}')">${s}</button>`
+  ).join("");
+  const filtered=subject==="総合"?ranking:ranking.filter(x=>x.subject===subject);
+  const top=filtered.sort((a,b)=>b.score-a.score||a.time-b.time).slice(0,10);
+  if(!top.length){
+    $("rankTable").innerHTML=`<div class="empty">まだランキングデータがありません。</div>`;
+    return;
+  }
+  $("rankTable").innerHTML=`
+    <div class="rank-table-wrap">
+    <table>
+      <thead><tr><th>#</th><th>名前</th><th>教科</th><th>単元</th><th>正解</th><th>時間</th><th>日付</th></tr></thead>
+      <tbody>
+      ${top.map((x,i)=>`
+        <tr class="${x.name===state.name?"me":""}">
+          <td class="rank-number">${i+1}</td>
+          <td>${escapeHtml(x.name)}</td>
+          <td>${escapeHtml(x.subject)}</td>
+          <td>${escapeHtml(x.unit)}</td>
+          <td>${x.score}/${x.total}</td>
+          <td>${formatTime(x.time)}</td>
+          <td>${escapeHtml(x.date)}</td>
+        </tr>`).join("")}
+      </tbody>
+    </table>
+    </div>`;
+}
+
+/* =========================================================
+   対戦ルーム（ローカルデモ）
+========================================================= */
+
+function randomRoomCode(){
+  const chars="ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
+  let s="";
+  for(let i=0;i<6;i++)s+=chars[Math.floor(Math.random()*chars.length)];
+  return s;
+}
+function createRoom(){
+  state.room=randomRoomCode();
+  showRoom(true);
+}
+function joinRoom(){
+  let code=prompt("友達から教えてもらった6文字のルームコードを入力");
+  if(!code)return;
+  code=code.trim().toUpperCase();
+  if(!/^[A-Z0-9]{6}$/.test(code)){alert("6文字のコードを入力してね");return;}
+  state.room=code;
+  showRoom(false);
+}
 function showRoom(host){
- const p=$("roomPanel");p.classList.remove("hidden");p.innerHTML=`<div class="yearbox"><div class="year">ルームコード</div><div class="roomcode">${state.room}</div><div style="text-align:center"><button class="btn small secondary" onclick="navigator.clipboard?.writeText('${state.room}');alert('コピーしたよ')">コードをコピー</button></div></div>
- <div class="year">参加者</div><div class="roomlist"><div class="player"><span>${state.name}</span><b>参加中</b></div><div class="player"><span>友達</span><small>同じコードを入力すると参加</small></div></div>
- <p class="note">現在のHTML単体では、別の端末とのリアルタイム同期はできません。実際のオンライン対戦にするにはFirebaseなどのリアルタイムDB接続が必要です。</p>
- ${host?'<button class="btn green" onclick="startBattleDemo()">対戦を開始（デモ）</button>':'<button class="btn" onclick="startBattleDemo()">参加する（デモ）</button>'}`;
+  const p=$("roomPanel");
+  p.classList.remove("hidden");
+  p.innerHTML=`
+    <div class="section-title">ルームコード</div>
+    <div class="room-code">${state.room}</div>
+    <div class="actions center">
+      <button class="btn secondary small" onclick="copyRoomCode()">コードをコピー</button>
+    </div>
+    <div class="section-title">参加者</div>
+    <div class="player-list">
+      <div class="player"><span>${escapeHtml(state.name)}</span><small>あなた</small></div>
+      <div class="player"><span>友達</span><small>コード入力で参加</small></div>
+    </div>
+    <div class="notice">
+      本番のオンライン版では、ここがリアルタイムで更新され、
+      「相手：7 / 10問」のような進捗も表示する設計にする。
+    </div>
+    <div class="actions center" style="margin-top:15px">
+      <button class="btn green" onclick="startBattleDemo()">対戦を開始${host?"":"（デモ参加）"}</button>
+    </div>`;
+}
+function copyRoomCode(){
+  if(navigator.clipboard){
+    navigator.clipboard.writeText(state.room).then(()=>alert("ルームコードをコピーしたよ"));
+  }else alert("ルームコード："+state.room);
 }
 function startBattleDemo(){
- let pool=shuffle(bank.filter(q=>q.grade==="3")).slice(0,10);state.questions=pool;state.subject="5教科";state.unit="ランダム";state.mode="battle";state.type="choice";state.index=0;state.score=0;state.wrong=[];state.start=Date.now();show("quiz");$("quizMode").textContent="対戦モード / 5教科ランダム";renderBattleQuestion();startTimer()
+  const pool=shuffle(BANK.filter(q=>q.grade==="3"));
+  state.questions=pool.slice(0,10);
+  state.mode="battle";state.type="choice";state.index=0;state.score=0;state.wrong=[];
+  state.startTime=Date.now();show("quiz");startQuizTimer();renderQuestion();
 }
-function renderBattleQuestion(){
- const q=state.questions[state.index];state.answered=false;$("qnum").textContent=`${state.index+1} / ${state.questions.length}問`;$("qsource").textContent=q.subject+"・"+q.unit;$("question").textContent=q.q;$("bar").style.width=(state.index/state.questions.length*100)+"%";$("feedback").className="feedback";$("next").classList.add("hidden");
- $("answers").innerHTML=shuffle(q.choices.split(" / ")).map(c=>`<button class="answer" onclick="checkBattle(this,${JSON.stringify(c)})">${c}</button>`).join("")
-}
-function checkBattle(btn,text){
- if(state.answered)return;const q=state.questions[state.index];state.answered=true;const correct=q.choices.split(" / ")[q.ans];const ok=text===correct;if(ok)state.score++;document.querySelectorAll(".answer").forEach(b=>{b.classList.add("disabled");if(b.textContent===correct)b.classList.add("correct")});if(!ok)btn.classList.add("wrong");feedback(ok,q,correct)
-}
-const oldNext=nextQuestion;
-function nextQuestionBattleAware(){if(state.mode==="battle"){if(!state.answered)return;if(state.index>=state.questions.length-1){finishBattle();return}state.index++;renderBattleQuestion()}else oldNext()}
-function finishBattle(){clearInterval(timerId);state.elapsed=Date.now()-state.start;$("resultTitle").textContent="対戦結果（デモ）";$("resultScore").textContent=`${state.score} / ${state.questions.length}`;$("resultMsg").innerHTML="友達と同じ問題で競える本番版は、Firebase接続後に使えるようになります。";$("stats").innerHTML=[["正解数",state.score],["正答率",Math.round(state.score/state.questions.length*100)+"%"],["時間",fmt(state.elapsed)],["ルーム",state.room]].map(x=>`<div class="stat"><small>${x[0]}</small><b>${x[1]}</b></div>`).join("");$("reviewList").innerHTML="";show("result")}
-$("next").onclick=nextQuestionBattleAware;
-(function(){let n=localStorage.getItem("jukenName");if(n)$("username").value=n;renderSubjects()})();
+
+/* =========================================================
+   初期化
+========================================================= */
+
+(function init(){
+  const saved=localStorage.getItem("jukenName");
+  if(saved){
+    state.name=saved;
+    $("username").value=saved;
+    $("headerUser").textContent=saved;
+  }
+  renderRanking("総合");
+})();
 </script>
 </body>
-</html>'''
+</html>
+'''
 
-# fix accidental duplicated listener behavior by replacing the inline handler with no-op
-html = html.replace('<button id="next" class="btn hidden" onclick="nextQuestion()">次の問題</button>',
-                    '<button id="next" class="btn hidden">次の問題</button>')
-path=Path("/mnt/data/juken_taisaku_quiz_full.html")
-path.write_text(html,encoding="utf-8")
-print(f"作成完了: {path} / {len(html.splitlines())} 行")
+path = Path("/mnt/data/juken_taisaku_quiz_complete.html")
+path.write_text(html, encoding="utf-8")
+print(f"完成: {path}")
+print(f"行数: {len(html.splitlines())}")
+print(f"問題データ: {len([x for x in BANK if isinstance(x,dict)]) if 'BANK' in globals() else 'HTML内に収録'}")
