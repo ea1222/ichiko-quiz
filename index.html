@@ -68,9 +68,10 @@
             display: block;
         }
         .question {
-            font-size: 18px;
+            font-size: 17px;
             font-weight: bold;
             margin-bottom: 10px;
+            line-height: 1.4;
         }
         .options {
             display: flex;
@@ -102,7 +103,7 @@
             border-left: 4px solid var(--primary-color);
             border-radius: 4px;
             display: none;
-            font-size: 15px;
+            font-size: 14px;
             line-height: 1.5;
         }
     </style>
@@ -127,7 +128,7 @@
 
     <!-- クイズコンテンツ -->
     <div id="quiz-container">
-        <!-- 8月号：英語 -->
+        <!-- ==================== 8月号のクイズ ==================== -->
         <div class="quiz-card active" data-month="8" data-subject="eng">
             <div class="question">Q. ( &nbsp; ) she speak French?</div>
             <div class="options">
@@ -148,7 +149,6 @@
             <div class="explanation">【裏ワザ解説】Mike and I は「マイクと私」で合計2人（複数）！最後に I がいても単数に騙されず aren't を選ぼう！</div>
         </div>
 
-        <!-- 8月号：理科 -->
         <div class="quiz-card" data-month="8" data-subject="sci">
             <div class="question">Q. 質量パーセント濃度を求める時、分母（下側）にするのは何？</div>
             <div class="options">
@@ -159,7 +159,6 @@
             <div class="explanation">【裏ワザ解説】濃度は２階建ての建物！上は溶けているもの（塩など）、下は「水＋ゴミ全部」の合計の重さ（溶液）にするのが鉄則！</div>
         </div>
 
-        <!-- 8月号：社会 -->
         <div class="quiz-card" data-month="8" data-subject="soc">
             <div class="question">Q. 租・調・庸のうち、「地方の特産品を都まで自腹で歩いて運ぶ」超ブラックな税金はどれ？</div>
             <div class="options">
@@ -171,83 +170,73 @@
             <div class="explanation">【裏ワザ解説】租（のぎへん）はお米！調はお土産（特産品）を整えて都まで歩く！庸は働く代わりの布！</div>
         </div>
 
-        <!-- ==================== 9月号（ここから追加していく！） ==================== -->
-        <div class="quiz-card" data-month="9" data-subject="eng">
-            <div class="question">★9月号の英語クイズ（準備中）</div>
-            <div class="explanation">ここに今月末のテスト範囲の英語クイズが追加されます！</div>
-        </div>
-        <div class="quiz-card" data-month="9" data-subject="sci">
-            <div class="question">★9月号の理科クイズ（準備中）</div>
-            <div class="explanation">ここに今月末のテスト範囲の理科クイズが追加されます！</div>
-        </div>
+
+        <!-- ==================== 9月号のクイズ（社会ガチ特訓） ==================== -->
         <div class="quiz-card" data-month="9" data-subject="soc">
-            <div class="question">★9月号の社会クイズ（準備中）</div>
-            <div class="explanation">ここに今月末のテスト範囲の社会クイズが追加されます！</div>
+            <div class="question">Q1. 室町時代、馬を使って荷物を運んだ「運送業者」を何という？</div>
+            <div class="options">
+                <button class="option-btn" onclick="checkAnswer(this, true)">馬借（ばしゃく）</button>
+                <button class="option-btn" onclick="checkAnswer(this, false)">土倉（どそう）</button>
+                <button class="option-btn" onclick="checkAnswer(this, false)">町衆（まちしゅう）</button>
+            </div>
+            <div class="feedback"></div>
+            <div class="explanation">【解説】馬で運ぶから「馬借」！土倉は質屋（銀行）、町衆は京都のお金持ち商人です。</div>
         </div>
 
-    </div>
-</div>
+        <div class="quiz-card" data-month="9" data-subject="soc">
+            <div class="question">Q2. 室町時代、農民が「借金をチャラにしろ（徳政令）」と要求して起こした一揆は？</div>
+            <div class="options">
+                <button class="option-btn" onclick="checkAnswer(this, false)">一向一揆</button>
+                <button class="option-btn" onclick="checkAnswer(this, true)">土一揆（つちいっき）</button>
+                <button class="option-btn" onclick="checkAnswer(this, false)">島原・天草一揆</button>
+            </div>
+            <div class="feedback"></div>
+            <div class="explanation">【解説】農民（土に生きる人）の借金チャラ一揆だから「土一揆」！一向一揆は宗教、島原は江戸時代のキリシタンです。</div>
+        </div>
 
-<script>
-    let currentMonth = '8';
-    let currentSubject = 'eng';
+        <div class="quiz-card" data-month="9" data-subject="soc">
+            <div class="question">Q3. 室町時代に足利義満が始めた、海賊（倭寇）と区別するために「割札」を使った貿易は？</div>
+            <div class="options">
+                <button class="option-btn" onclick="checkAnswer(this, true)">日明貿易（勘合貿易）</button>
+                <button class="option-btn" onclick="checkAnswer(this, false)">朱印船貿易</button>
+            </div>
+            <div class="feedback"></div>
+            <div class="explanation">【解説】明（中国）との貿易で「勘合（かんごう）」という割札を使ったから日明貿易！朱印船貿易は江戸時代に家康がパスポートを出したやつです。</div>
+        </div>
 
-    function changeMonth(month) {
-        currentMonth = month;
-        updateSelector('.month-selector .btn', month === '8' ? 0 : 1);
-        renderQuiz();
-    }
+        <div class="quiz-card" data-month="9" data-subject="soc">
+            <div class="question">Q4. 戦国大名が、自分の領国内を支配するために独自につくった法律を何という？</div>
+            <div class="options">
+                <button class="option-btn" onclick="checkAnswer(this, false)">武家諸法度</button>
+                <button class="option-btn" onclick="checkAnswer(this, true)">分国法（ぶんこくほう）</button>
+            </div>
+            <div class="feedback"></div>
+            <div class="explanation">【解説】国を分けて支配する法律だから「分国法」！武家諸法度は江戸時代に幕府が大名を縛った法律です。</div>
+        </div>
 
-    function changeSubject(subject) {
-        currentSubject = subject;
-        const index = subject === 'eng' ? 0 : subject === 'sci' ? 1 : 2;
-        updateSelector('.subject-selector .sub-btn', index);
-        renderQuiz();
-    }
+        <div class="quiz-card" data-month="9" data-subject="soc">
+            <div class="question">Q5. 織田信長が、商人の独占グループ（座）を廃止して、誰でも自由に税金なしで商売していいよとした命令は？</div>
+            <div class="options">
+                <button class="option-btn" onclick="checkAnswer(this, true)">楽市令（楽市・楽座）</button>
+                <button class="option-btn" onclick="checkAnswer(this, false)">刀狩令</button>
+            </div>
+            <div class="feedback"></div>
+            <div class="explanation">【解説】市場を「楽しくフリー」にするから「楽市令」！信長の超有名ポリシーです。</div>
+        </div>
 
-    function updateSelector(selector, activeIndex) {
-        document.querySelectorAll(selector).forEach((btn, idx) => {
-            if(idx === activeIndex) btn.classList.add('active');
-            else btn.classList.remove('active');
-        });
-    }
+        <div class="quiz-card" data-month="9" data-subject="soc">
+            <div class="question">Q6. 豊臣秀吉が、農民が一揆を起こすのを防ぎ、武士と農民の身分を分ける（兵農分離）ために出した命令は？</div>
+            <div class="options">
+                <button class="option-btn" onclick="checkAnswer(this, false)">武家諸法度</button>
+                <button class="option-btn" onclick="checkAnswer(this, true)">刀狩令（かたながりれい）</button>
+            </div>
+            <div class="feedback"></div>
+            <div class="explanation">【解説】農民から刀や弓などの武器を没収したから「刀狩令」！これで一揆を防ぎました。</div>
+        </div>
 
-    function renderQuiz() {
-        const cards = document.querySelectorAll('.quiz-card');
-        let found = false;
-        cards.forEach(card => {
-            const m = card.getAttribute('data-month');
-            const s = card.getAttribute('data-subject');
-            // リセット
-            card.style.display = 'none';
-            card.querySelector('.feedback').style.display = 'none';
-            card.querySelector('.explanation').style.display = 'none';
-            
-            if (m === currentMonth && s === currentSubject) {
-                card.style.display = 'block';
-                found = true;
-            }
-        });
-    </div>
-
-    function checkAnswer(btn, isCorrect) {
-        const card = btn.closest('.quiz-card');
-        const feedback = card.querySelector('.feedback');
-        const exp = card.querySelector('.explanation');
-        
-        if(isCorrect) {
-            feedback.innerHTML = "正解！⭕️";
-            feedback.style.color = "green";
-        } else {
-            feedback.innerHTML = "不正解！❌";
-            feedback.style.color = "red";
-        }
-        feedback.style.display = "block";
-        exp.style.display = "block";
-    }
-    
-    // 初期表示
-    renderQuiz();
-</script>
-</body>
-</html>
+        <div class="quiz-card" data-month="9" data-subject="soc">
+            <div class="question">Q7. 豊臣秀吉が、全国の田畑の広さやよしあしを調査し、収穫量を「石高（こくだか）」で表した政策は？</div>
+            <div class="options">
+                <button class="option-btn" onclick="checkAnswer(this, true)">太閤検地（たいこうけんち）</button>
+                <button class="option-btn" onclick="checkAnswer(this, false)">惣（そう）</button>
+            </div>
