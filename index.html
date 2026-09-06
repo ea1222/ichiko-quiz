@@ -64,9 +64,6 @@
             margin-top: 15px;
             background: #fafafa;
         }
-        .quiz-card.active {
-            display: block;
-        }
         .question {
             font-size: 17px;
             font-weight: bold;
@@ -129,7 +126,7 @@
     <!-- クイズコンテンツ -->
     <div id="quiz-container">
         <!-- ==================== 8月号のクイズ ==================== -->
-        <div class="quiz-card active" data-month="8" data-subject="eng">
+        <div class="quiz-card" data-month="8" data-subject="eng">
             <div class="question">Q. ( &nbsp; ) she speak French?</div>
             <div class="options">
                 <button class="option-btn" onclick="checkAnswer(this, false)">Is</button>
@@ -171,7 +168,7 @@
         </div>
 
 
-        <!-- ==================== 9月号のクイズ（社会ガチ特訓） ==================== -->
+        <!-- ==================== 9月号のクイズ ==================== -->
         <div class="quiz-card" data-month="9" data-subject="soc">
             <div class="question">Q1. 室町時代、馬を使って荷物を運んだ「運送業者」を何という？</div>
             <div class="options">
@@ -240,3 +237,4 @@
                 <button class="option-btn" onclick="checkAnswer(this, true)">太閤検地（たいこうけんち）</button>
                 <button class="option-btn" onclick="checkAnswer(this, false)">惣（そう）</button>
             </div>
+            <div class="feedback"></div>
