@@ -1,41 +1,30 @@
-<!DOCTYPE html>
-<html lang="ja">
+<html>
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>受験対策クイズ</title>
     <style>
-        :root {
-            --bg-color: #121212;
-            --card-bg: #1e1e1e;
-            --text-color: #ffffff;
-            --accent-color: #00bcd4;
-            --correct-color: #4caf50;
-            --incorrect-color: #f44336;
-        }
         body {
-            font-family: 'Helvetica Neue', Arial, sans-serif;
-            background-color: var(--bg-color);
-            color: var(--text-color);
+            font-family: Arial, sans-serif;
+            background-color: #121212;
+            color: #ffffff;
             margin: 0;
             padding: 20px;
             display: flex;
             flex-direction: column;
             align-items: center;
-            min-height: 100vh;
         }
         .container {
             max-width: 600px;
             width: 100%;
-            background: var(--card-bg);
+            background: #1e1e1e;
             padding: 25px;
             border-radius: 16px;
             box-shadow: 0 8px 16px rgba(0,0,0,0.5);
-            box-sizing: border-box;
         }
         h1 {
             text-align: center;
-            color: var(--accent-color);
+            color: #00bcd4;
             margin-bottom: 20px;
             font-size: 26px;
         }
@@ -56,17 +45,14 @@
         .btn {
             width: 100%;
             padding: 14px;
-            background: var(--accent-color);
+            background: #00bcd4;
             border: none;
             color: black;
             border-radius: 8px;
             font-size: 18px;
             font-weight: bold;
             cursor: pointer;
-            transition: background 0.2s;
         }
-        .btn:hover { background: #00acc1; }
-        
         .quiz-header {
             display: flex;
             justify-content: space-between;
@@ -96,10 +82,7 @@
             text-align: left;
             cursor: pointer;
             font-size: 16px;
-            transition: background 0.2s;
         }
-        .option-btn:hover { background: #3a3a3a; }
-        
         .feedback-area {
             margin-top: 15px;
             padding: 12px;
@@ -108,10 +91,8 @@
         }
         .feedback-text { font-size: 20px; font-weight: bold; margin-bottom: 5px; }
         .explanation { font-size: 14px; color: #ccc; line-height: 1.4; }
-        
         .result-title { text-align: center; font-size: 24px; color: #ffeb3b; margin-bottom: 15px; }
         .result-score { text-align: center; font-size: 18px; margin-bottom: 25px; color: #fff; }
-        
         table {
             width: 100%;
             border-collapse: collapse;
@@ -121,8 +102,7 @@
             overflow: hidden;
         }
         th, td { padding: 12px; text-align: center; border-bottom: 1px solid #333; }
-        th { background: #333; color: var(--accent-color); }
-        tr:nth-child(even) { background: #2c2c2c; }
+        th { background: #333; color: #00bcd4; }
     </style>
 </head>
 <body>
@@ -158,7 +138,7 @@
         <div class="result-title">🎉 おめでとー！！！ 🎉</div>
         <div id="result-score" class="result-score"></div>
         
-        <h3 style="color: var(--accent-color); border-bottom: 1px solid #333; padding-bottom: 5px;">👑 トップ10ランキング</h3>
+        <h3 style="color: #00bcd4; border-bottom: 1px solid #333; padding-bottom: 5px;">👑 トップ10ランキング</h3>
         <table>
             <thead>
                 <tr>
@@ -175,92 +155,117 @@
 </div>
 
 <script>
-    // 範囲表から厳選した5教科の全問題プール
-    const allQuestions = [
+    var allQuestions = [
         { q: "【社会】室町時代、馬を使って荷物を運んだ「運送業者」を何という？", o: ["馬借（ばしゃく）", "土倉（どそう）", "町衆"], a: 0, e: "馬で運ぶから「馬借」！土倉は質屋（銀行）です。" },
         { q: "【社会】農民が「借金をチャラにしろ（徳政令）」と要求して起こした一揆は？", o: ["一向一揆", "土一揆（つちいっき）", "島原・天草一揆"], a: 1, e: "農民（土に生きる人）の借金チャラ一揆だから「土一揆」！" },
         { q: "【社会】豊臣秀吉が農民から武器を没収した、兵農分離のための命令は？", o: ["武家諸法度", "刀狩令（かたながりれい）", "太閤検地"], a: 1, e: "武器を取り上げるから「刀狩令」です！" },
-        { q: "【理科】生物の体が大きくなる時、1個の細胞が2個に分かれる現象を何という？", o: ["体細胞分裂", "細胞分裂", "減数分裂"], a: 1, e: "3年生命の基本！細胞が分かれるから「細胞分裂」です。" },
+        { q: "【理科】生物の体が大きくなる時、1個の細胞が2個に分かれる現象を何という？", o: ["体細胞分裂", "細胞分裂", "減数分裂"], a: 1, e: "細胞が分かれるから「細胞分裂」です。" },
         { q: "【理科】生殖細胞ができる時に行われる、染色体の数が半分になる細胞分裂は？", o: ["体細胞分裂", "減数分裂（げんすうぶんれつ）"], a: 1, e: "数が「減る」特別な分裂だから「減数分裂」です！" },
-        { q: "【理科】[2年復習] 酸化銅に炭素の粉を混ぜて加熱した時、銅と一緒に発生する気体は何？", o: ["酸素", "二酸化炭素"], a: 1, e: "酸素が奪われる「還元」が起き、炭素とくっついて二酸化炭素になります。" },
+        { q: "【理科】酸化銅に炭素の粉を混ぜて加熱した時、銅と一緒に発生する気体は何？", o: ["酸素", "二酸化炭素"], a: 1, e: "酸素が奪われる「還元」が起き、炭素とくっついて二酸化炭素になります。" },
         { q: "【英語】I have ( &nbsp; ) in Ichinoseki for three years. <br>「私は3年間ずっと一関に住んでいます」", o: ["live", "lived"], a: 1, e: "現在完了形「have ＋ 過去分詞」の継続の文です。for three yearsが目印！" },
-        { q: "【英語】Ken ( &nbsp; ) already finished his homework.<br>「ケンはもう宿題を終えてしまいました」", o: ["have", "has"], a: 1, e: "主語がKen（1人）なのでhasを使います。alreadyの位置も要チェック！" },
-        { q: "【数学】[2年復習] 連立方程式を解くとき、2つの式を足したり引いたりして1つの文字を消す方法を何という？", o: ["代入法", "加減法（かげんほう）"], a: 1, e: "足し算（加）や引き算（減）で文字を消すから「加減法」です！" },
+        { q: "【英語】Ken ( &nbsp; ) already finished his homework.<br>「ケンはもう宿題を終えてしまいました」", o: ["have", "has"], a: 1, e: "主語がKen（1人）なのでhasを使います。" },
+        { q: "【数学】連立方程式を解くとき、2つの式を足したり引いたりして1つの文字を消す方法を何という？", o: ["代入法", "加減法（かげんほう）"], a: 1, e: "足し算（加）や引き算（減）で文字を消すから「加減法」です！" },
         { q: "【数学】平方根（ルート）について、√25 をルートを使わずに表すといくつになる？", o: ["5", "-5", "±5"], a: 0, e: "√25は「2乗して25になる正の数」のことなので、答えは「5」になります！" },
-        { q: "【国語】文章中から指定された文字数で言葉を書き写す問題（抜き出し問題）の絶対ルールは？", o: ["自分の言葉に直して書く", "文章の通り1文字も変えずに書く"], a: 1, e: "抜き出しは「1文字も変えない」が鉄則！句読点（。や、）も1文字として数えます。" }
+        { q: "【国語】文章中から指定された文字数で言葉を書き写す問題（抜き出し問題）の絶対ルールは？", o: ["自分の言葉に直して書く", "文章の通り1文字も変えずに書く"], a: 1, e: "抜き出しは「1文字も変えない」が鉄則！" }
     ];
 
-    let username = "";
-    let shuffledQuestions = [];
-    let currentIdx = 0;
-    let score = 0;
-    let startTime = 0;
-    let timerInterval = null;
-    let timeElapsed = 0;
-
-    function showScreen(id) {
-        document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
-        document.getElementById(id).classList.add('active');
-    }
+    var username = "";
+    var shuffledQuestions = [];
+    var currentIdx = 0;
+    var score = 0;
+    var startTime = 0;
+    var timerInterval = null;
+    var timeElapsed = 0;
 
     function startQuiz() {
-        const input = document.getElementById('username-input').value.trim();
-        if (!input) {
+        var input = document.getElementById('username-input').value;
+        if (!input || input.trim() === "") {
             alert('なまえを入力してね！');
             return;
         }
-        username = input;
+        username = input.trim();
         
-        // 問題をランダムに並び替えて10問シャッフル
-        shuffledQuestions = [...allQuestions].sort(() => Math.random() - 0.5).slice(0, 10);
+        shuffledQuestions = [];
+        var tempArr = [];
+        for(var i=0; i<allQuestions.length; i++) {
+            tempArr.push(allQuestions[i]);
+        }
+        tempArr.sort(function(){ return Math.random() - 0.5; });
+        for(var j=0; j<10; j++) {
+            if(tempArr[j]) shuffledQuestions.push(tempArr[j]);
+        }
+        
         currentIdx = 0;
         score = 0;
         timeElapsed = 0;
         
-        showScreen('quiz-screen');
+        document.getElementById('login-screen').style.display = 'none';
+        document.getElementById('quiz-screen').style.display = 'block';
         loadQuestion();
         
-        // タイマースタート
         startTime = Date.now();
-        timerInterval = setInterval(() => {
+        timerInterval = setInterval(function() {
             timeElapsed = Math.floor((Date.now() - startTime) / 1000);
-            document.getElementById('timer').innerText = `タイム: ${timeElapsed}秒`;
+            document.getElementById('timer').innerText = 'タイム: ' + timeElapsed + '秒';
         }, 1000);
     }
 
     function loadQuestion() {
         document.getElementById('feedback-area').style.display = 'none';
-        const qData = shuffledQuestions[currentIdx];
+        var qData = shuffledQuestions[currentIdx];
         
-        document.getElementById('question-count').innerText = `第 ${currentIdx + 1} / 10 問`;
+        document.getElementById('question-count').innerText = '第 ' + (currentIdx + 1) + ' / 10 問';
         document.getElementById('question-text').innerHTML = qData.q;
         
-        const optionsContainer = document.getElementById('options-container');
+        var optionsContainer = document.getElementById('options-container');
         optionsContainer.innerHTML = '';
         
-        qData.o.forEach((opt, idx) => {
-            const btn = document.createElement('button');
+        for(var i=0; i<qData.o.length; i++) {
+            var btn = document.createElement('button');
             btn.className = 'option-btn';
-            btn.innerText = opt;
-            btn.onclick = () => selectOption(idx);
+            btn.innerText = qData.o[i];
+            (function(idx) {
+                btn.onclick = function() { selectOption(idx); };
+            })(i);
             optionsContainer.appendChild(btn);
-        });
+        }
     }
 
     function selectOption(selectedIdx) {
-        // ボタンをすべて無効化
-        document.querySelectorAll('.option-btn').forEach(btn => btn.disabled = true);
+        var btns = document.querySelectorAll('.option-btn');
+        for(var i=0; i<btns.length; i++) { btns[i].disabled = true; }
         
-        const qData = shuffledQuestions[currentIdx];
-        const feedbackArea = document.getElementById('feedback-area');
-        const feedbackText = document.getElementById('feedback-text');
-        const explanationText = document.getElementById('explanation-text');
+        var qData = shuffledQuestions[currentIdx];
+        var feedbackArea = document.getElementById('feedback-area');
+        var feedbackText = document.getElementById('feedback-text');
+        var explanationText = document.getElementById('explanation-text');
         
         if (selectedIdx === qData.a) {
             feedbackText.innerText = "正解！⭕️";
             feedbackArea.style.backgroundColor = "rgba(76, 175, 80, 0.2)";
-            feedbackText.style.color = "var(--correct-color)";
+            feedbackText.style.color = "#4caf50";
             score++;
         } else {
             feedbackText.innerText = "不正解！❌";
             feedbackArea.style.backgroundColor = "rgba(244, 67, 54, 0.2)";
+            feedbackText.style.color = "#f44336";
+        }
+        
+        explanationText.innerHTML = qData.e;
+        feedbackArea.style.display = 'block';
+    }
+
+    function nextQuestion() {
+        currentIdx++;
+        if (currentIdx < 10) {
+            loadQuestion();
+        } else {
+            endQuiz();
+        }
+    }
+
+    function endQuiz() {
+        clearInterval(timerInterval);
+        document.getElementById('quiz-screen').style.display = 'none';
+        document.getElementById('result-screen').style.display = 'block';
+        
