@@ -1,0 +1,965 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>一高合格応援クイズ</title>
+
+<style>
+    * {
+        box-sizing: border-box;
+    }
+
+    body {
+        margin: 0;
+        font-family:
+            -apple-system,
+            BlinkMacSystemFont,
+            "Noto Sans JP",
+            "Yu Gothic",
+            sans-serif;
+        background: #f4f7fb;
+        color: #1f2937;
+    }
+
+    header {
+        background: linear-gradient(135deg, #1769aa, #278bd1);
+        color: white;
+        padding: 28px 16px 32px;
+        text-align: center;
+    }
+
+    header h1 {
+        margin: 0;
+        font-size: clamp(25px, 6vw, 38px);
+        letter-spacing: 0.04em;
+    }
+
+    header p {
+        margin: 10px 0 0;
+        opacity: 0.95;
+        font-size: 14px;
+    }
+
+    .container {
+        width: min(900px, calc(100% - 28px));
+        margin: 0 auto;
+    }
+
+    .tabs {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 10px;
+        margin: -22px auto 24px;
+        position: relative;
+    }
+
+    .tab {
+        border: none;
+        border-radius: 14px;
+        padding: 15px 8px;
+        background: white;
+        color: #4b5563;
+        font-size: 16px;
+        font-weight: 700;
+        cursor: pointer;
+        box-shadow: 0 5px 18px rgba(0,0,0,0.08);
+        transition: 0.2s;
+    }
+
+    .tab:hover {
+        transform: translateY(-2px);
+    }
+
+    .tab.active {
+        background: #1769aa;
+        color: white;
+    }
+
+    .card {
+        background: white;
+        border-radius: 20px;
+        padding: clamp(20px, 5vw, 36px);
+        box-shadow: 0 8px 30px rgba(0,0,0,0.07);
+        margin-bottom: 30px;
+    }
+
+    .subject-title {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 10px;
+        margin-bottom: 18px;
+    }
+
+    .subject-title h2 {
+        margin: 0;
+        font-size: 22px;
+    }
+
+    .score {
+        font-size: 14px;
+        color: #64748b;
+        white-space: nowrap;
+    }
+
+    .progress-area {
+        width: 100%;
+        height: 8px;
+        background: #e5e7eb;
+        border-radius: 999px;
+        overflow: hidden;
+        margin-bottom: 28px;
+    }
+
+    .progress-bar {
+        height: 100%;
+        width: 0%;
+        background: #278bd1;
+        border-radius: 999px;
+        transition: width 0.35s ease;
+    }
+
+    .question-number {
+        color: #1769aa;
+        font-weight: 700;
+        font-size: 14px;
+        margin-bottom: 9px;
+    }
+
+    .question {
+        font-size: clamp(19px, 4vw, 25px);
+        line-height: 1.65;
+        font-weight: 700;
+        margin: 0 0 24px;
+    }
+
+    .choices {
+        display: grid;
+        gap: 12px;
+    }
+
+    .choice {
+        width: 100%;
+        text-align: left;
+        padding: 16px 17px;
+        border: 2px solid #e2e8f0;
+        border-radius: 13px;
+        background: #fff;
+        font-size: 16px;
+        cursor: pointer;
+        transition: 0.18s;
+        color: #1f2937;
+    }
+
+    .choice:hover:not(:disabled) {
+        border-color: #278bd1;
+        background: #f0f8ff;
+        transform: translateX(2px);
+    }
+
+    .choice:disabled {
+        cursor: default;
+    }
+
+    .choice.correct {
+        border-color: #22a06b;
+        background: #ecfdf5;
+        color: #087443;
+        font-weight: 700;
+    }
+
+    .choice.wrong {
+        border-color: #ef5350;
+        background: #fff1f2;
+        color: #c62828;
+        font-weight: 700;
+    }
+
+    .result {
+        display: none;
+        margin-top: 22px;
+        padding: 18px;
+        border-radius: 15px;
+        font-weight: 700;
+        animation: pop 0.3s ease;
+    }
+
+    .result.correct {
+        display: block;
+        background: #ecfdf5;
+        color: #087443;
+    }
+
+    .result.wrong {
+        display: block;
+        background: #fff1f2;
+        color: #c62828;
+    }
+
+    @keyframes pop {
+        0% {
+            opacity: 0;
+            transform: translateY(10px) scale(0.97);
+        }
+        100% {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+        }
+    }
+
+    .trick {
+        display: none;
+        margin-top: 14px;
+        padding: 19px;
+        border-left: 5px solid #278bd1;
+        border-radius: 10px;
+        background: #f0f7ff;
+        animation: slide 0.35s ease;
+    }
+
+    .trick.show {
+        display: block;
+    }
+
+    @keyframes slide {
+        from {
+            opacity: 0;
+            transform: translateY(-8px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    .trick-title {
+        color: #1769aa;
+        font-weight: 800;
+        margin-bottom: 8px;
+    }
+
+    .trick p {
+        margin: 0;
+        line-height: 1.75;
+        font-size: 15px;
+    }
+
+    .next-btn {
+        display: none;
+        width: 100%;
+        margin-top: 20px;
+        padding: 15px;
+        border: none;
+        border-radius: 13px;
+        background: #1769aa;
+        color: white;
+        font-size: 16px;
+        font-weight: 700;
+        cursor: pointer;
+    }
+
+    .next-btn:hover {
+        background: #12578c;
+    }
+
+    .next-btn.show {
+        display: block;
+        animation: pop 0.25s ease;
+    }
+
+    .complete {
+        display: none;
+        text-align: center;
+        padding: 25px 5px 10px;
+    }
+
+    .complete.show {
+        display: block;
+    }
+
+    .complete h2 {
+        font-size: 28px;
+        margin: 5px 0 10px;
+        color: #1769aa;
+    }
+
+    .complete .big-score {
+        font-size: 40px;
+        font-weight: 900;
+        margin: 15px 0;
+    }
+
+    .restart {
+        border: none;
+        background: #1769aa;
+        color: white;
+        padding: 14px 25px;
+        border-radius: 12px;
+        font-weight: 700;
+        cursor: pointer;
+        font-size: 15px;
+    }
+
+    .hint {
+        margin-top: 28px;
+        text-align: center;
+        color: #64748b;
+        font-size: 13px;
+        line-height: 1.7;
+    }
+
+    footer {
+        text-align: center;
+        padding: 10px 20px 35px;
+        color: #94a3b8;
+        font-size: 12px;
+    }
+
+    @media (max-width: 600px) {
+        header {
+            padding-top: 23px;
+        }
+
+        .tabs {
+            gap: 7px;
+        }
+
+        .tab {
+            font-size: 14px;
+            padding: 13px 5px;
+        }
+
+        .card {
+            border-radius: 16px;
+        }
+
+        .choice {
+            font-size: 15px;
+        }
+    }
+</style>
+</head>
+
+<body>
+
+<header>
+    <h1>一高合格応援クイズ</h1>
+    <p>毎日ちょっとずつ。苦手を「得点源」に変えよう。</p>
+</header>
+
+<main class="container">
+
+    <div class="tabs">
+        <button class="tab active" onclick="changeSubject('english')">英語</button>
+        <button class="tab" onclick="changeSubject('science')">理科</button>
+        <button class="tab" onclick="changeSubject('social')">社会</button>
+    </div>
+
+    <section class="card">
+
+        <div class="subject-title">
+            <h2 id="subjectTitle">英語</h2>
+            <div class="score" id="score">正解 0 / 0</div>
+        </div>
+
+        <div class="progress-area">
+            <div class="progress-bar" id="progressBar"></div>
+        </div>
+
+        <div id="quizArea">
+
+            <div class="question-number" id="questionNumber">
+                第1問
+            </div>
+
+            <p class="question" id="question"></p>
+
+            <div class="choices" id="choices"></div>
+
+            <div class="result" id="result"></div>
+
+            <div class="trick" id="trick">
+                <div class="trick-title">💡 世界一わかりやすい裏ワザ</div>
+                <p id="trickText"></p>
+            </div>
+
+            <button class="next-btn" id="nextBtn" onclick="nextQuestion()">
+                次の問題へ →
+            </button>
+
+        </div>
+
+        <div class="complete" id="complete">
+            <h2>🎉 クイズ完走！</h2>
+            <p>今回の結果</p>
+            <div class="big-score" id="finalScore"></div>
+            <p id="finalMessage"></p>
+            <button class="restart" onclick="restartSubject()">
+                もう一度挑戦する
+            </button>
+        </div>
+
+    </section>
+
+    <div class="hint">
+        「わからなかった問題」こそチャンス。<br>
+        解説を読んでもう一回やれば、記憶に残る！
+    </div>
+
+</main>
+
+<footer>
+    一高合格応援クイズ ｜ 基礎を固めて本番へ
+</footer>
+
+
+<script>
+
+/* =========================================================
+   クイズデータ
+   ========================================================= */
+
+const quizData = {
+
+    english: [
+
+        {
+            question: "（　）she speak French?",
+            choices: ["Is", "Does", "Do", "Are"],
+            answer: 1,
+            explanation:
+                "後ろをチェック！「speak」は一般動詞だから、疑問文では「Does」を使う。she ＋ Does ＋ speak の形！「Is she speak」はNG。"
+        },
+
+        {
+            question: "Mike and I (　) able to take that train.",
+            choices: ["am", "is", "are", "was"],
+            answer: 2,
+            explanation:
+                "「Mike and I」は「Mikeと私」の2人＝複数！だからbe動詞は「are」。最後がIでも、主語全体が2人ならamではない！"
+        },
+
+        {
+            question: "Before I (　), I always imagined that I was flying.",
+            choices: ["sleep", "slept", "sleeping", "will sleep"],
+            answer: 1,
+            explanation:
+                "文の後ろに「imagined」「was」という過去形がある！過去の話なら「sleep」も過去形の「slept」に変身。時制をそろえるイメージ！"
+        },
+
+        {
+            question: "My father (　) read the book last night.",
+            choices: ["doesn't", "don't", "didn't", "isn't"],
+            answer: 2,
+            explanation:
+                "「last night＝昨夜」が超重要！過去の否定だから「didn't」。主語がMy fatherでも、過去ならdoesn'tではなくdidn't！"
+        },
+
+        {
+            question: "A:（　）did you go?\nB: I went to the park.",
+            choices: ["Why", "Where", "When", "Who"],
+            answer: 1,
+            explanation:
+                "問題文だけ見て悩まない！まず相手の返事を見る。「the park＝場所」だから「Where」。BecauseならWhy、at 7ならWhen！"
+        },
+
+        {
+            question: "「あなたは昨日何をしましたか。」を正しく並べると？",
+            choices: [
+                "Did what you do yesterday?",
+                "What did you do yesterday?",
+                "What you did yesterday?",
+                "Did you what do yesterday?"
+            ],
+            answer: 1,
+            explanation:
+                "黄金呪文は「ボスが・だれ・どう・なに・ば・じ」！つまり「疑問詞 → 助動詞 → 主語 → 動詞 → 目的語 → 場所 → 時」。まず骨格を作ろう！"
+        }
+
+    ],
+
+    science: [
+
+        {
+            question: "質量パーセント濃度を求める式はどれ？",
+            choices: [
+                "溶質 ÷ 水 × 100",
+                "溶液 ÷ 溶質 × 100",
+                "溶質 ÷ 溶液 × 100",
+                "水 ÷ 溶液 × 100"
+            ],
+            answer: 2,
+            explanation:
+                "濃度は「全体の中に、どれだけ溶質が入っているか」！下は『水＋溶質＝溶液』という全部入り。だから「溶質 ÷ 溶液 ×100」。"
+        },
+
+        {
+            question: "銅と酸素が結びつく質量の比は？",
+            choices: ["1：1", "4：1", "2：1", "5：1"],
+            answer: 1,
+            explanation:
+                "呪文は「どう・さん・し・いち」！銅4：酸素1＝4：1。合計すると5だから、銅4＋酸素1＝酸化銅5！"
+        },
+
+        {
+            question: "マグネシウムと酸素が結びつく質量の比は？",
+            choices: ["3：2", "2：3", "3：1", "5：2"],
+            answer: 0,
+            explanation:
+                "呪文は「ま・さ・み・じ」！マグネシウム3：酸素2＝3：2。合計5になるのもセットで覚える！"
+        },
+
+        {
+            question: "炭酸水素ナトリウムの加熱実験で、試験管の口を少し下げる理由は？",
+            choices: [
+                "酸素を入れやすくするため",
+                "水が逆流して試験管が割れるのを防ぐため",
+                "二酸化炭素を集めるため",
+                "薬品を混ぜやすくするため"
+            ],
+            answer: 1,
+            explanation:
+                "加熱すると水ができる。試験管の口を下げておかないと、水が加熱部分へ逆流して試験管が割れる危険がある！「水の逆流→破損防止」で覚える。"
+        }
+
+    ],
+
+    social: [
+
+        {
+            question: "「租・調・庸」のうち、稲（米）を納めるのは？",
+            choices: ["租", "調", "庸", "全部"],
+            answer: 0,
+            explanation:
+                "「租」は「のぎへん＝稲」のイメージ！だから米。『租＝お米』と一瞬で思い出せればOK！"
+        },
+
+        {
+            question: "「調」は何を納めるもの？",
+            choices: [
+                "米",
+                "特産物",
+                "労働",
+                "武器"
+            ],
+            answer: 1,
+            explanation:
+                "調＝その地方の特産品！『お土産を都まで持っていく』イメージで覚えると強い。米ではなく、地域の特産物！"
+        },
+
+        {
+            question: "「庸」は何を納めるもの？",
+            choices: [
+                "米",
+                "特産物",
+                "労働の代わりの布など",
+                "馬"
+            ],
+            answer: 2,
+            explanation:
+                "庸＝労働の代わり！都で働く代わりに布などを納める。『庸＝労働の代金』くらいのイメージでOK！"
+        },
+
+        {
+            question: "隋と唐、成立した順番は？",
+            choices: [
+                "唐 → 隋",
+                "隋 → 唐",
+                "同時",
+                "漢 → 唐 → 隋"
+            ],
+            answer: 1,
+            explanation:
+                "呪文は『ズイっと進んで、トウっと到着！』。隋が先、そのあと唐。順番問題ではこれを唱える！"
+        },
+
+        {
+            question: "「土一揆」の特徴として最も近いものは？",
+            choices: [
+                "浄土真宗の信者が中心",
+                "農民などが借金の帳消しなどを求めた",
+                "キリスト教徒が重税に反発",
+                "京都の商人が起こした"
+            ],
+            answer: 1,
+            explanation:
+                "『土＝農民』と覚える！土一揆は農民などが徳政令を求めて起こした一揆。『借金チャラにして！』がキーワード。"
+        },
+
+        {
+            question: "「一向一揆」の中心となった人々は？",
+            choices: [
+                "浄土真宗の信者",
+                "京都の商人",
+                "キリスト教徒",
+                "武士だけ"
+            ],
+            answer: 0,
+            explanation:
+                "一向一揆＝浄土真宗の信者が中心。『一向＝信仰パワー』と覚えると、土一揆との区別がしやすい！"
+        },
+
+        {
+            question: "「島原・天草一揆」の背景として正しいものは？",
+            choices: [
+                "米不足だけが原因",
+                "キリスト教徒などが重い年貢・弾圧に反発した",
+                "商人が独占権を求めた",
+                "農民が馬を求めた"
+            ],
+            answer: 1,
+            explanation:
+                "島原・天草一揆＝キリスト教徒＋重い年貢などへの反発！『島原＝キリスト教＋重税』でセット暗記。"
+        },
+
+        {
+            question: "「馬借」は何をしていた人々？",
+            choices: [
+                "運送",
+                "質屋",
+                "商人の独占グループ",
+                "農民の自治"
+            ],
+            answer: 0,
+            explanation:
+                "名前に『馬』がある！馬を使って荷物を運ぶ運送業者。『馬＝運ぶ』で即答！"
+        },
+
+        {
+            question: "「土倉」は何をしていた？",
+            choices: [
+                "運送",
+                "質屋・金融",
+                "農民の自治",
+                "独占販売"
+            ],
+            answer: 1,
+            explanation:
+                "土倉＝質屋・金融業者。『お金を貸す・物を担保にする』イメージ！銀行っぽい仕事と覚えよう。"
+        },
+
+        {
+            question: "「座」とは何？",
+            choices: [
+                "農民の自治組織",
+                "運送業者",
+                "商工業者などの独占的な同業者組合",
+                "京都の町の自治組織"
+            ],
+            answer: 2,
+            explanation:
+                "座＝同業者のグループ！『独占グループ』と覚えると速い。特定の商品などを扱う権利を持っていた。"
+        },
+
+        {
+            question: "「惣」とは何？",
+            choices: [
+                "農民による自治的な村",
+                "質屋",
+                "運送業者",
+                "商人の組合"
+            ],
+            answer: 0,
+            explanation:
+                "惣＝農民の自治組織！村のことを自分たちで運営するイメージ。『惣＝村を自分たちでまとめる』！"
+        },
+
+        {
+            question: "「町衆」とはどんな人々？",
+            choices: [
+                "京都などの都市で力を持った商工業者",
+                "農民",
+                "運送業者",
+                "浄土真宗の僧侶"
+            ],
+            answer: 0,
+            explanation:
+                "町衆＝京都などの都市で力を持った裕福な商工業者。『町の金持ち商人』というイメージで覚える！"
+        }
+
+    ]
+
+};
+
+
+/* =========================================================
+   状態管理
+   ========================================================= */
+
+let currentSubject = "english";
+let currentQuestion = 0;
+let correctCount = 0;
+let answered = false;
+
+
+/* =========================================================
+   教科変更
+   ========================================================= */
+
+function changeSubject(subject) {
+
+    currentSubject = subject;
+    currentQuestion = 0;
+    correctCount = 0;
+    answered = false;
+
+    document.querySelectorAll(".tab").forEach(tab => {
+        tab.classList.remove("active");
+    });
+
+    if (subject === "english") {
+        document.querySelectorAll(".tab")[0].classList.add("active");
+    }
+
+    if (subject === "science") {
+        document.querySelectorAll(".tab")[1].classList.add("active");
+    }
+
+    if (subject === "social") {
+        document.querySelectorAll(".tab")[2].classList.add("active");
+    }
+
+    document.getElementById("complete").classList.remove("show");
+    document.getElementById("quizArea").style.display = "block";
+
+    renderQuestion();
+}
+
+
+/* =========================================================
+   問題表示
+   ========================================================= */
+
+function renderQuestion() {
+
+    const questions = quizData[currentSubject];
+    const q = questions[currentQuestion];
+
+    answered = false;
+
+    const titleMap = {
+        english: "英語",
+        science: "理科",
+        social: "社会"
+    };
+
+    document.getElementById("subjectTitle").textContent =
+        titleMap[currentSubject];
+
+    document.getElementById("questionNumber").textContent =
+        `第${currentQuestion + 1}問 / 全${questions.length}問`;
+
+    document.getElementById("question").innerText = q.question;
+
+    document.getElementById("score").textContent =
+        `正解 ${correctCount} / ${currentQuestion}`;
+
+    const progress =
+        (currentQuestion / questions.length) * 100;
+
+    document.getElementById("progressBar").style.width =
+        `${progress}%`;
+
+    const choices = document.getElementById("choices");
+
+    choices.innerHTML = "";
+
+    q.choices.forEach((choice, index) => {
+
+        const button = document.createElement("button");
+
+        button.className = "choice";
+        button.textContent =
+            `${String.fromCharCode(65 + index)}　${choice}`;
+
+        button.onclick = () => checkAnswer(index, button);
+
+        choices.appendChild(button);
+    });
+
+    const result = document.getElementById("result");
+
+    result.className = "result";
+    result.innerHTML = "";
+
+    document.getElementById("trick").classList.remove("show");
+    document.getElementById("trickText").textContent = "";
+
+    document.getElementById("nextBtn").classList.remove("show");
+}
+
+
+/* =========================================================
+   答え合わせ
+   ========================================================= */
+
+function checkAnswer(selected, selectedButton) {
+
+    if (answered) return;
+
+    answered = true;
+
+    const questions = quizData[currentSubject];
+    const q = questions[currentQuestion];
+
+    const buttons =
+        document.querySelectorAll(".choice");
+
+    buttons.forEach(button => {
+        button.disabled = true;
+    });
+
+    const result = document.getElementById("result");
+
+    if (selected === q.answer) {
+
+        selectedButton.classList.add("correct");
+
+        correctCount++;
+
+        result.className = "result correct";
+        result.innerHTML =
+            "正解！⭕️<br><small>その調子！このポイントはしっかり覚えておこう。</small>";
+
+    } else {
+
+        selectedButton.classList.add("wrong");
+
+        buttons[q.answer].classList.add("correct");
+
+        result.className = "result wrong";
+        result.innerHTML =
+            "不正解！❌<br><small>大丈夫。今ここで覚えればOK！</small>";
+    }
+
+    document.getElementById("score").textContent =
+        `正解 ${correctCount} / ${currentQuestion + 1}`;
+
+    document.getElementById("trickText").textContent =
+        q.explanation;
+
+    document.getElementById("trick").classList.add("show");
+
+    const nextBtn = document.getElementById("nextBtn");
+
+    if (currentQuestion < questions.length - 1) {
+        nextBtn.textContent = "次の問題へ →";
+    } else {
+        nextBtn.textContent = "結果を見る →";
+    }
+
+    nextBtn.classList.add("show");
+}
+
+
+/* =========================================================
+   次の問題
+   ========================================================= */
+
+function nextQuestion() {
+
+    const questions = quizData[currentSubject];
+
+    if (currentQuestion < questions.length - 1) {
+
+        currentQuestion++;
+
+        renderQuestion();
+
+        window.scrollTo({
+            top: 0,
+            behavior: "smooth"
+        });
+
+    } else {
+
+        showComplete();
+    }
+}
+
+
+/* =========================================================
+   結果画面
+   ========================================================= */
+
+function showComplete() {
+
+    document.getElementById("quizArea").style.display =
+        "none";
+
+    document.getElementById("complete").classList.add("show");
+
+    document.getElementById("progressBar").style.width =
+        "100%";
+
+    const total =
+        quizData[currentSubject].length;
+
+    document.getElementById("finalScore").textContent =
+        `${correctCount} / ${total}`;
+
+    const percentage =
+        Math.round((correctCount / total) * 100);
+
+    let message = "";
+
+    if (percentage === 100) {
+        message =
+            "完璧！この基礎力はかなり強い。次のレベルへ進もう！";
+    } else if (percentage >= 80) {
+        message =
+            "かなりいい！間違えた問題だけ、もう一度復習すればさらに強くなる！";
+    } else if (percentage >= 60) {
+        message =
+            "あと一歩！間違えた問題の「裏ワザ解説」を覚えて、もう一周しよう！";
+    } else {
+        message =
+            "ここから伸びる！間違えた問題を覚えて、もう一度チャレンジしよう！";
+    }
+
+    document.getElementById("finalMessage").textContent =
+        message;
+
+    window.scrollTo({
+        top: 0,
+        behavior: "smooth"
+    });
+}
+
+
+/* =========================================================
+   もう一度
+   ========================================================= */
+
+function restartSubject() {
+
+    currentQuestion = 0;
+    correctCount = 0;
+
+    document.getElementById("complete")
+        .classList.remove("show");
+
+    document.getElementById("quizArea")
+        .style.display = "block";
+
+    renderQuestion();
+
+    window.scrollTo({
+        top: 0,
+        behavior: "smooth"
+    });
+}
+
+
+/* =========================================================
+   起動
+   ========================================================= */
+
+renderQuestion();
+
+</script>
+
+</body>
+</html>
