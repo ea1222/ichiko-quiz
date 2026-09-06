@@ -3,13 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>一高合格応援クイズサイト</title>
+    <title>受験対策クイズ</title>
     <style>
         :root {
-            --primary-color: #005bac;
-            --bg-color: #f4f6f9;
-            --card-bg: #ffffff;
-            --text-color: #333333;
+            --bg-color: #121212;
+            --card-bg: #1e1e1e;
+            --text-color: #ffffff;
+            --accent-color: #00bcd4;
+            --correct-color: #4caf50;
+            --incorrect-color: #f44336;
         }
         body {
             font-family: 'Helvetica Neue', Arial, sans-serif;
@@ -20,250 +22,245 @@
             display: flex;
             flex-direction: column;
             align-items: center;
+            min-height: 100vh;
         }
         .container {
             max-width: 600px;
             width: 100%;
             background: var(--card-bg);
-            padding: 20px;
-            border-radius: 12px;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            padding: 25px;
+            border-radius: 16px;
+            box-shadow: 0 8px 16px rgba(0,0,0,0.5);
+            box-sizing: border-box;
         }
         h1 {
             text-align: center;
-            color: var(--primary-color);
-            font-size: 24px;
-            margin-bottom: 5px;
+            color: var(--accent-color);
+            margin-bottom: 20px;
+            font-size: 26px;
         }
-        .subtitle {
-            text-align: center;
-            color: #666;
-            margin-bottom: 25px;
-            font-size: 14px;
-        }
-        .section-title {
-            background: var(--primary-color);
-            color: white;
-            padding: 8px 15px;
-            border-radius: 6px;
-            font-size: 18px;
-            margin-top: 30px;
-            margin-bottom: 15px;
-            font-weight: bold;
-        }
-        .subject-tag {
-            display: inline-block;
-            background: #e1f0ff;
-            color: var(--primary-color);
-            padding: 3px 10px;
-            border-radius: 4px;
-            font-size: 12px;
-            font-weight: bold;
-            margin-bottom: 8px;
-        }
-        .quiz-card {
-            border: 1px solid #ddd;
+        .screen { display: none; }
+        .screen.active { display: block; }
+        
+        input[type="text"] {
+            width: 100%;
+            padding: 12px;
+            margin-bottom: 20px;
+            border: 2px solid #444;
             border-radius: 8px;
-            padding: 15px;
+            background: #2b2b2b;
+            color: white;
+            font-size: 16px;
+            box-sizing: border-box;
+        }
+        .btn {
+            width: 100%;
+            padding: 14px;
+            background: var(--accent-color);
+            border: none;
+            color: black;
+            border-radius: 8px;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        .btn:hover { background: #00acc1; }
+        
+        .quiz-header {
+            display: flex;
+            justify-content: space-between;
+            font-size: 14px;
+            color: #aaa;
             margin-bottom: 15px;
-            background: #fafafa;
+            border-bottom: 1px solid #333;
+            padding-bottom: 10px;
         }
         .question {
-            font-size: 16px;
+            font-size: 18px;
             font-weight: bold;
-            margin-bottom: 10px;
-            line-height: 1.4;
+            margin-bottom: 20px;
+            line-height: 1.5;
         }
         .options {
             display: flex;
             flex-direction: column;
-            gap: 8px;
+            gap: 12px;
         }
         .option-btn {
-            padding: 10px;
-            border: 1px solid #ccc;
-            background: white;
-            border-radius: 6px;
+            padding: 12px;
+            border: 1px solid #444;
+            background: #2b2b2b;
+            color: white;
+            border-radius: 8px;
             text-align: left;
             cursor: pointer;
-            font-size: 15px;
+            font-size: 16px;
+            transition: background 0.2s;
         }
-        .option-btn:hover {
-            background: #f0f0f0;
-        }
-        .feedback {
-            margin-top: 10px;
-            font-weight: bold;
-            font-size: 18px;
+        .option-btn:hover { background: #3a3a3a; }
+        
+        .feedback-area {
+            margin-top: 15px;
+            padding: 12px;
+            border-radius: 6px;
             display: none;
         }
-        .explanation {
-            margin-top: 10px;
-            padding: 10px;
-            background: #eef5fc;
-            border-left: 4px solid var(--primary-color);
-            border-radius: 4px;
-            display: none;
-            font-size: 14px;
-            line-height: 1.5;
+        .feedback-text { font-size: 20px; font-weight: bold; margin-bottom: 5px; }
+        .explanation { font-size: 14px; color: #ccc; line-height: 1.4; }
+        
+        .result-title { text-align: center; font-size: 24px; color: #ffeb3b; margin-bottom: 15px; }
+        .result-score { text-align: center; font-size: 18px; margin-bottom: 25px; color: #fff; }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+            background: #252525;
+            border-radius: 8px;
+            overflow: hidden;
         }
+        th, td { padding: 12px; text-align: center; border-bottom: 1px solid #333; }
+        th { background: #333; color: var(--accent-color); }
+        tr:nth-child(even) { background: #2c2c2c; }
     </style>
 </head>
 <body>
 
 <div class="container">
-    <h1>一高合格応援クイズサイト</h1>
-    <div class="subtitle">※ボタンなし！下までスクロールしてポチポチ解こう！</div>
-    
-    <!-- ==================== 9月号：今月のテスト対策エリア ==================== -->
-    <div class="section-title">🔥 9月号：今月のテスト範囲ガチ特訓</div>
+    <h1>🏆 受験対策クイズ 🏆</h1>
 
-    <!-- 社会 -->
-    <div class="quiz-card">
-        <div class="subject-tag">社会・歴史</div>
-        <div class="question">Q1. 室町時代、馬を使って荷物を運んだ「運送業者」を何という？</div>
-        <div class="options">
-            <button class="option-btn" onclick="checkAnswer(this, 1)">馬借（ばしゃく）</button>
-            <button class="option-btn" onclick="checkAnswer(this, 0)">土倉（どそう）</button>
-            <button class="option-btn" onclick="checkAnswer(this, 0)">町衆（まちしゅう）</button>
-        </div>
-        <div class="feedback"></div>
-        <div class="explanation">【解説】馬で運ぶから「馬借」！土倉は質屋（銀行）、町衆は京都のお金持ち商人です。</div>
+    <!-- 1. ログイン画面 -->
+    <div id="login-screen" class="screen active">
+        <p style="text-align: center; color: #ccc;">ユーザーネームを入力してスタート！</p>
+        <input type="text" id="username-input" placeholder="なまえ（メアド不要）" maxlength="10">
+        <button class="btn" onclick="startQuiz()">クイズに挑戦する</button>
     </div>
 
-    <div class="quiz-card">
-        <div class="subject-tag">社会・歴史</div>
-        <div class="question">Q2. 農民が「借金をチャラにしろ（徳政令）」と要求して起こした一揆は？</div>
-        <div class="options">
-            <button class="option-btn" onclick="checkAnswer(this, 0)">一向一揆</button>
-            <button class="option-btn" onclick="checkAnswer(this, 1)">土一揆（つちいっき）</button>
-            <button class="option-btn" onclick="checkAnswer(this, 0)">島原・天草一揆</button>
+    <!-- 2. クイズ画面 -->
+    <div id="quiz-screen" class="screen">
+        <div class="quiz-header">
+            <span id="question-count">第 1 / 10 問</span>
+            <span id="timer">タイム: 0秒</span>
         </div>
-        <div class="feedback"></div>
-        <div class="explanation">【解説】農民（土に生きる人）の借金チャラ一揆だから「土一揆」！</div>
+        <div id="question-text" class="question"></div>
+        <div id="options-container" class="options"></div>
+        
+        <div id="feedback-area" class="feedback-area">
+            <div id="feedback-text" class="feedback-text"></div>
+            <div id="explanation-text" class="explanation"></div>
+            <button class="btn" id="next-btn" style="margin-top:15px;" onclick="nextQuestion()">次の問題へ</button>
+        </div>
     </div>
 
-    <div class="quiz-card">
-        <div class="subject-tag">社会・歴史</div>
-        <div class="question">Q3. 海賊（倭寇）と区別するために「割札」を使った日明貿易の別名は？</div>
-        <div class="options">
-            <button class="option-btn" onclick="checkAnswer(this, 1)">勘合貿易（かんごうぼうえき）</button>
-            <button class="option-btn" onclick="checkAnswer(this, 0)">朱印船貿易</button>
-        </div>
-        <div class="feedback"></div>
-        <div class="explanation">【解説】「勘合」という割札を使ったから勘合貿易！朱印船貿易は江戸時代です。</div>
+    <!-- 3. 結果・ランキング画面 -->
+    <div id="result-screen" class="screen">
+        <div class="result-title">🎉 おめでとー！！！ 🎉</div>
+        <div id="result-score" class="result-score"></div>
+        
+        <h3 style="color: var(--accent-color); border-bottom: 1px solid #333; padding-bottom: 5px;">👑 トップ10ランキング</h3>
+        <table>
+            <thead>
+                <tr>
+                    <th>順位</th>
+                    <th>なまえ</th>
+                    <th>正解数</th>
+                    <th>タイム</th>
+                </tr>
+            </thead>
+            <tbody id="ranking-tbody"></tbody>
+        </table>
+        <button class="btn" style="margin-top: 25px;" onclick="restartQuiz()">もう一度挑戦する</button>
     </div>
+</div>
 
-    <div class="quiz-card">
-        <div class="subject-tag">社会・歴史</div>
-        <div class="question">Q4. 戦国大名が、自分の領国内を支配するために独自につくった法律を何という？</div>
-        <div class="options">
-            <button class="option-btn" onclick="checkAnswer(this, 0)">武家諸法度</button>
-            <button class="option-btn" onclick="checkAnswer(this, 1)">分国法（ぶんこくほう）</button>
-        </div>
-        <div class="feedback"></div>
-        <div class="explanation">【解説】国を分けて支配する法律だから「分国法」！</div>
-    </div>
+<script>
+    // 範囲表から厳選した5教科の全問題プール
+    const allQuestions = [
+        { q: "【社会】室町時代、馬を使って荷物を運んだ「運送業者」を何という？", o: ["馬借（ばしゃく）", "土倉（どそう）", "町衆"], a: 0, e: "馬で運ぶから「馬借」！土倉は質屋（銀行）です。" },
+        { q: "【社会】農民が「借金をチャラにしろ（徳政令）」と要求して起こした一揆は？", o: ["一向一揆", "土一揆（つちいっき）", "島原・天草一揆"], a: 1, e: "農民（土に生きる人）の借金チャラ一揆だから「土一揆」！" },
+        { q: "【社会】豊臣秀吉が農民から武器を没収した、兵農分離のための命令は？", o: ["武家諸法度", "刀狩令（かたながりれい）", "太閤検地"], a: 1, e: "武器を取り上げるから「刀狩令」です！" },
+        { q: "【理科】生物の体が大きくなる時、1個の細胞が2個に分かれる現象を何という？", o: ["体細胞分裂", "細胞分裂", "減数分裂"], a: 1, e: "3年生命の基本！細胞が分かれるから「細胞分裂」です。" },
+        { q: "【理科】生殖細胞ができる時に行われる、染色体の数が半分になる細胞分裂は？", o: ["体細胞分裂", "減数分裂（げんすうぶんれつ）"], a: 1, e: "数が「減る」特別な分裂だから「減数分裂」です！" },
+        { q: "【理科】[2年復習] 酸化銅に炭素の粉を混ぜて加熱した時、銅と一緒に発生する気体は何？", o: ["酸素", "二酸化炭素"], a: 1, e: "酸素が奪われる「還元」が起き、炭素とくっついて二酸化炭素になります。" },
+        { q: "【英語】I have ( &nbsp; ) in Ichinoseki for three years. <br>「私は3年間ずっと一関に住んでいます」", o: ["live", "lived"], a: 1, e: "現在完了形「have ＋ 過去分詞」の継続の文です。for three yearsが目印！" },
+        { q: "【英語】Ken ( &nbsp; ) already finished his homework.<br>「ケンはもう宿題を終えてしまいました」", o: ["have", "has"], a: 1, e: "主語がKen（1人）なのでhasを使います。alreadyの位置も要チェック！" },
+        { q: "【数学】[2年復習] 連立方程式を解くとき、2つの式を足したり引いたりして1つの文字を消す方法を何という？", o: ["代入法", "加減法（かげんほう）"], a: 1, e: "足し算（加）や引き算（減）で文字を消すから「加減法」です！" },
+        { q: "【数学】平方根（ルート）について、√25 をルートを使わずに表すといくつになる？", o: ["5", "-5", "±5"], a: 0, e: "√25は「2乗して25になる正の数」のことなので、答えは「5」になります！" },
+        { q: "【国語】文章中から指定された文字数で言葉を書き写す問題（抜き出し問題）の絶対ルールは？", o: ["自分の言葉に直して書く", "文章の通り1文字も変えずに書く"], a: 1, e: "抜き出しは「1文字も変えない」が鉄則！句読点（。や、）も1文字として数えます。" }
+    ];
 
-    <div class="quiz-card">
-        <div class="subject-tag">社会・歴史</div>
-        <div class="question">Q5. 織田信長が、座を廃止して自由に税金なしで商売していいよとした命令は？</div>
-        <div class="options">
-            <button class="option-btn" onclick="checkAnswer(this, 1)">楽市令（楽市・楽座）</button>
-            <button class="option-btn" onclick="checkAnswer(this, 0)">刀狩令</button>
-        </div>
-        <div class="feedback"></div>
-        <div class="explanation">【解説】市場を「楽しくフリー」にするから「楽市令」！</div>
-    </div>
+    let username = "";
+    let shuffledQuestions = [];
+    let currentIdx = 0;
+    let score = 0;
+    let startTime = 0;
+    let timerInterval = null;
+    let timeElapsed = 0;
 
-    <div class="quiz-card">
-        <div class="subject-tag">社会・歴史</div>
-        <div class="question">Q6. 豊臣秀吉が、農民が一揆を起こすのを防ぐために出した武器没収の命令は？</div>
-        <div class="options">
-            <button class="option-btn" onclick="checkAnswer(this, 0)">武家諸法度</button>
-            <button class="option-btn" onclick="checkAnswer(this, 1)">刀狩令（かたながりれい）</button>
-        </div>
-        <div class="feedback"></div>
-        <div class="explanation">【解説】武器を取り上げるから「刀狩令」！</div>
-    </div>
+    function showScreen(id) {
+        document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+        document.getElementById(id).classList.add('active');
+    }
 
-    <div class="quiz-card">
-        <div class="subject-tag">社会・歴史</div>
-        <div class="question">Q7. 豊臣秀吉が全国の田畑を調査し、収穫量を「石高」で表した政策は？</div>
-        <div class="options">
-            <button class="option-btn" onclick="checkAnswer(this, 1)">太閤検地（たいこうけんち）</button>
-            <button class="option-btn" onclick="checkAnswer(this, 0)">惣（そう）</button>
-        </div>
-        <div class="feedback"></div>
-        <div class="explanation">【解説】秀吉（太閤）が土地を検査したから「太閤検地」です。</div>
-    </div>
+    function startQuiz() {
+        const input = document.getElementById('username-input').value.trim();
+        if (!input) {
+            alert('なまえを入力してね！');
+            return;
+        }
+        username = input;
+        
+        // 問題をランダムに並び替えて10問シャッフル
+        shuffledQuestions = [...allQuestions].sort(() => Math.random() - 0.5).slice(0, 10);
+        currentIdx = 0;
+        score = 0;
+        timeElapsed = 0;
+        
+        showScreen('quiz-screen');
+        loadQuestion();
+        
+        // タイマースタート
+        startTime = Date.now();
+        timerInterval = setInterval(() => {
+            timeElapsed = Math.floor((Date.now() - startTime) / 1000);
+            document.getElementById('timer').innerText = `タイム: ${timeElapsed}秒`;
+        }, 1000);
+    }
 
-    <div class="quiz-card">
-        <div class="subject-tag">社会・歴史</div>
-        <div class="question">Q8. 1492年、大西洋を渡りアメリカ大陸（西インド諸島）に到達した人物は？</div>
-        <div class="options">
-            <button class="option-btn" onclick="checkAnswer(this, 0)">マゼラン</button>
-            <button class="option-btn" onclick="checkAnswer(this, 1)">コロンブス</button>
-        </div>
-        <div class="feedback"></div>
-        <div class="explanation">【解説】1492年（意気揚々と）アメリカへ行ったのは「コロンブス」！</div>
-    </div>
+    function loadQuestion() {
+        document.getElementById('feedback-area').style.display = 'none';
+        const qData = shuffledQuestions[currentIdx];
+        
+        document.getElementById('question-count').innerText = `第 ${currentIdx + 1} / 10 問`;
+        document.getElementById('question-text').innerHTML = qData.q;
+        
+        const optionsContainer = document.getElementById('options-container');
+        optionsContainer.innerHTML = '';
+        
+        qData.o.forEach((opt, idx) => {
+            const btn = document.createElement('button');
+            btn.className = 'option-btn';
+            btn.innerText = opt;
+            btn.onclick = () => selectOption(idx);
+            optionsContainer.appendChild(btn);
+        });
+    }
 
-    <div class="quiz-card">
-        <div class="subject-tag">社会・歴史</div>
-        <div class="question">Q9. ザビエルが所属していた、世界中にキリスト教を広めるために作られた組織は？</div>
-        <div class="options">
-            <button class="option-btn" onclick="checkAnswer(this, 1)">イエズス会</button>
-            <button class="option-btn" onclick="checkAnswer(this, 0)">座（ざ）</button>
-        </div>
-        <div class="feedback"></div>
-        <div class="explanation">【解説】ザビエルがいたカトリックのグループが「イエズス会」です！</div>
-    </div>
-
-    <div class="quiz-card">
-        <div class="subject-tag">社会・歴史</div>
-        <div class="question">Q10. キリスト教、イスラム教、ユダヤ教の「3つの宗教の聖地」はどこ？</div>
-        <div class="options">
-            <button class="option-btn" onclick="checkAnswer(this, 0)">ローマ</button>
-            <button class="option-btn" onclick="checkAnswer(this, 1)">エルサレム</button>
-        </div>
-        <div class="feedback"></div>
-        <div class="explanation">【解説】3つの宗教の聖地といえば「エルサレム」です！</div>
-    </div>
-
-    <div class="quiz-card">
-        <div class="subject-tag">社会・歴史</div>
-        <div class="question">Q11. 江戸初期、天草四郎をリーダーに九州のキリシタンらが起こした大反乱は？</div>
-        <div class="options">
-            <button class="option-btn" onclick="checkAnswer(this, 1)">島原・天草一揆</button>
-            <button class="option-btn" onclick="checkAnswer(this, 0)">土一揆</button>
-        </div>
-        <div class="feedback"></div>
-        <div class="explanation">【解説】江戸時代のキリシタン大反乱だから「島原・天草一揆」です！</div>
-    </div>
-
-    <!-- 理科 -->
-    <div class="quiz-card">
-        <div class="subject-tag">理科・生物</div>
-        <div class="question">Q12. [3年] 生物の体が大きくなる時、1個の細胞が2個に分かれる現象を何という？</div>
-        <div class="options">
-            <button class="option-btn" onclick="checkAnswer(this, 1)">細胞分裂（さいぼうぶんれつ）</button>
-            <button class="option-btn" onclick="checkAnswer(this, 0)">化学変化</button>
-        </div>
-        <div class="feedback"></div>
-        <div class="explanation">【解説】3年「生命の連続性」の基本！細胞が分かれるから「細胞分裂」です。</div>
-    </div>
-
-    <div class="quiz-card">
-        <div class="subject-tag">理科・化学</div>
-        <div class="question">Q13. [2年復習] 酸化銅に炭素の粉を混ぜて加熱した時、銅と一緒に発生する気体は何？</div>
-        <div class="options">
-            <button class="option-btn" onclick="checkAnswer(this, 0)">酸素</button>
-            <button class="option-btn" onclick="checkAnswer(this, 1)">二酸化炭素</button>
-        </div>
-        <div class="feedback"></div>
-        <div class="explanation">【解説】酸化銅から酸素が奪われる「還元（かんげん）」が起き、炭素とくっついて二酸化炭素になります。</div>
-    </div>
-
-    <div class="quiz-card">
-        <div class="subject-tag">理科・物理</div>
+    function selectOption(selectedIdx) {
+        // ボタンをすべて無効化
+        document.querySelectorAll('.option-btn').forEach(btn => btn.disabled = true);
+        
+        const qData = shuffledQuestions[currentIdx];
+        const feedbackArea = document.getElementById('feedback-area');
+        const feedbackText = document.getElementById('feedback-text');
+        const explanationText = document.getElementById('explanation-text');
+        
+        if (selectedIdx === qData.a) {
+            feedbackText.innerText = "正解！⭕️";
+            feedbackArea.style.backgroundColor = "rgba(76, 175, 80, 0.2)";
+            feedbackText.style.color = "var(--correct-color)";
+            score++;
+        } else {
+            feedbackText.innerText = "不正解！❌";
+            feedbackArea.style.backgroundColor = "rgba(244, 67, 54, 0.2)";
